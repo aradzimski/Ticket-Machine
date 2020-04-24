@@ -1,16 +1,16 @@
-package com.example.ticket_machine.ui.slideshow;
+package com.example.ticket_machine.ui.events;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+public class EventsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SlideshowViewModel() {
+    public EventsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        //mText.setValue("This is events fragment");
     }
 
     public LiveData<String> getText() {

@@ -1,15 +1,46 @@
 <resources>
-    <string name="app_name">Ticket-Machine</string>
+    <!-- APP -->
+    <string name="app_name">TicketMachine</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Ticket Machine</string>
+    <string name="nav_header_subtitle">ticket.machine@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-
     <string name="home_second">Home Second</string>
+    <!-- /APP -->
+
+    <!--Navigation-->
+    <string name="menu_home">Home</string>
+    <string name="menu_events">Parties</string>
+    <string name="menu_tickets">Tickets</string>
+    <string name="menu_register">Register</string>
+    <string name="menu_login">Login</string>
+    <!--/Navigation-->
+
+    <!--Home-->
+    <string name="home_description_image_view">Party</string>
+    <!--/Home-->
+
+    <!-- Register -->
+    <string name="hintTextPersonName">Name</string>
+    <string name="hintTextEmailAddress">Email address</string>
+    <string name="hintTextPassword">Password</string>
+    <string name="hintTextConfirmPassword">Confirm Password</string>
+    <string name="btnTextRegister">Register</string>
+    <string name="registerAddImageView">Add account</string>
+    <!-- /Register -->
+
+    <!-- Login -->
+    <string name="loginEntranceImageView">Entrance</string>
+    <string name="btnTextLogin">Login</string>
+    <string name="textViewLogin">Login?Registration</string>
+    <!--Events-->
+    <string name="events_first_header">Events</string>
+    <!--/Events-->
+
+    <!--Tickets-->
+    <string name="tickets_first_header">Tickets</string>
+    <!--/Tickets-->
 </resources>
