@@ -1,4 +1,4 @@
-package com.example.ticket_machine.ui.slideshow;
+package com.example.ticket_machine.ui.tickets;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.ticket_machine.R;
 
-public class SlideshowFragment extends Fragment {
+public class TicketsFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private TicketsViewModel ticketsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        ticketsViewModel =
+                ViewModelProviders.of(this).get(TicketsViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_tickets, container, false);
+        final TextView textView = root.findViewById(R.id.text_tickets);
+        ticketsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
