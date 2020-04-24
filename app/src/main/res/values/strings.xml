@@ -42,5 +42,8 @@
 
     <!--Tickets-->
     <string name="tickets_first_header">Tickets</string>
+    <string name="qrcode_btn_text">Generate QR</string>
+    <string name="qrcode_input_description">Enter QR code string</string>
+    <string name="qrcode_image_container_description">QR code</string>
     <!--/Tickets-->
 </resources>
