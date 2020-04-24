@@ -9,6 +9,14 @@
             android:icon="@drawable/ic_menu_home"
             android:title="@string/menu_home" />
         <item
+            android:id="@+id/nav_register"
+            android:icon="@drawable/ic_menu_register"
+            android:title="@string/menu_register" />
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_menu_login"
+            android:title="@string/menu_login" />
+        <item
             android:id="@+id/nav_events"
             android:icon="@drawable/ic_menu_events"
             android:title="@string/menu_events" />
@@ -16,6 +24,7 @@
             android:id="@+id/nav_tickets"
             android:icon="@drawable/ic_menu_tickets"
             android:title="@string/menu_tickets" />
+
     </group>
 
 
