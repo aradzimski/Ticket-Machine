@@ -2,6 +2,7 @@
     <!-- URL -->
     <string name="URL_REGIST">https://ticketmachine.hostingasp.pl/register.php</string>
     <string name="URL_LOGIN">https://ticketmachine.hostingasp.pl/login.php</string>
+    <string name="URL_EVENTS">https://ticketmachine.hostingasp.pl/getevents.php</string>
     <!-- /URL -->
 
     <!-- APP -->
