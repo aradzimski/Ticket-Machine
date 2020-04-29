@@ -12,7 +12,7 @@
 
         <ImageView
             android:id="@+id/register_add_image_view"
-            android:contentDescription="@string/registerAddImageView"
+            android:contentDescription="@string/register_add_image_view"
             app:srcCompat="@drawable/register_add_account"
             android:layout_width="353dp"
             android:layout_height="164dp"
@@ -22,7 +22,7 @@
         <EditText
             android:id="@+id/name"
             android:inputType="textPersonName"
-            android:hint="@string/hintTextPersonName"
+            android:hint="@string/hint_text_person_name"
             android:importantForAutofill="no"
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
@@ -31,9 +31,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/register_add_image_view"/>
         <EditText
-            android:id="@+id/email"
-            android:inputType="textEmailAddress"
-            android:hint="@string/hintTextEmailAddress"
+            android:id="@+id/last_name"
+            android:inputType="textPersonName"
+            android:hint="@string/hint_text_person_last_name"
             android:importantForAutofill="no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,9 +41,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name"/>
         <EditText
+            android:id="@+id/email"
+            android:inputType="textEmailAddress"
+            android:hint="@string/hint_text_email_address"
+            android:importantForAutofill="no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/last_name"/>
+        <EditText
             android:id="@+id/password"
             android:inputType="textPassword"
-            android:hint="@string/hintTextPassword"
+            android:hint="@string/hint_text_password"
             android:importantForAutofill="no"
             app:passwordToggleEnabled="true"
             android:layout_width="match_parent"
@@ -54,7 +64,7 @@
         <EditText
             android:id="@+id/c_password"
             android:inputType="textPassword"
-            android:hint="@string/hintTextConfirmPassword"
+            android:hint="@string/hint_text_confirm_password"
             android:importantForAutofill="no"
             app:passwordToggleEnabled="true"
             android:layout_width="match_parent"
@@ -73,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@+id/c_password"/>
         <Button
             android:id="@+id/register_btn"
-            android:text="@string/btnTextRegister"
+            android:text="@string/btn_text_register"
             android:importantForAutofill="no"
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"

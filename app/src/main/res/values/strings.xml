@@ -1,4 +1,9 @@
 <resources>
+    <!-- URL -->
+    <string name="URL_REGIST">https://ticketmachine.hostingasp.pl/register.php</string>
+    <string name="URL_LOGIN">https://ticketmachine.hostingasp.pl/login.php</string>
+    <!-- /URL -->
+
     <!-- APP -->
     <string name="app_name">TicketMachine</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -24,18 +29,21 @@
     <!--/Home-->
 
     <!-- Register -->
-    <string name="hintTextPersonName">Name</string>
-    <string name="hintTextEmailAddress">Email address</string>
-    <string name="hintTextPassword">Password</string>
-    <string name="hintTextConfirmPassword">Confirm Password</string>
-    <string name="btnTextRegister">Register</string>
-    <string name="registerAddImageView">Add account</string>
+    <string name="register_add_image_view">Add account</string>
+    <string name="hint_text_person_name">First Name</string>
+    <string name="hint_text_person_last_name">Last Name</string>
+    <string name="hint_text_email_address">Email address</string>
+    <string name="hint_text_password">Password</string>
+    <string name="hint_text_confirm_password">Confirm Password</string>
+    <string name="btn_text_register">Register</string>
     <!-- /Register -->
 
     <!-- Login -->
-    <string name="loginEntranceImageView">Entrance</string>
-    <string name="btnTextLogin">Login</string>
-    <string name="textViewLogin">Login?Registration</string>
+    <string name="login_entrance_image_view">Entrance</string>
+    <string name="btn_text_login">Login</string>
+    <string name="text_view_login">Registration</string>
+    <!-- /Login -->
+
     <!--Events-->
     <string name="events_first_header">Events</string>
     <!--/Events-->

@@ -1,8 +1,13 @@
 package com.example.ticket_machine.ui.login;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ticket_machine.R;
 import com.example.ticket_machine.ui.register.RegisterFragment;
+import com.example.ticket_machine.ui.register.RegisterViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,37 +40,48 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginFragment extends Fragment {
+    private LoginViewModel loginViewModel;
     private EditText email, password;
     private Button btn_login;
     private TextView link_regist;
     private ProgressBar loading;
-    private static String URL_LOGIN = "https://ticketmachine.hostingasp.pl/login.php";
+    private static String URL_LOGIN;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        loginViewModel =
+                ViewModelProviders.of(this).get(LoginViewModel.class);
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        final TextView textView = view.findViewById(R.id.text_events);
+        loginViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });
 
+        URL_LOGIN = getString(R.string.URL_LOGIN);
         loading = view.findViewById(R.id.loading);
         email = view.findViewById(R.id.email);
         password = view.findViewById(R.id.password);
         btn_login = view.findViewById(R.id.login_btn);
         link_regist = view.findViewById(R.id.link_regist);
 
-        btn_login.setOnClickListener(new View.OnClickListener(){
+        btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View  v){
+            public void onClick(View v) {
                 String mEmail = email.getText().toString().trim();
                 String mPass = password.getText().toString().trim();
 
-                if(!mEmail.isEmpty() || !mPass.isEmpty()){
-                    Login(mEmail,mPass);
-                }else{
+                if (!mEmail.isEmpty() || !mPass.isEmpty()) {
+                    Login(mEmail, mPass);
+                } else {
                     email.setError("Please insert email;");
                     password.setError("Please insert password;");
                 }
             }
         });
+
         link_regist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +92,8 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-    private void Login(final String email, final String password){
+
+    private void Login(final String email, final String password) {
         loading.setVisibility(View.VISIBLE);
         btn_login.setVisibility(View.GONE);
 
@@ -88,8 +106,8 @@ public class LoginFragment extends Fragment {
                             String success = jsonObject.getString("success");
                             JSONArray jsonArray = jsonObject.getJSONArray("login");
 
-                            if(success.equals("1")){
-                                for(int i = 0;i<jsonArray.length();i++){
+                            if (success.equals("1")) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
 
                                     String name = object.getString("name").trim();
@@ -97,8 +115,8 @@ public class LoginFragment extends Fragment {
 
                                     Toast.makeText(getContext(),
                                             "Success Login. \nYour name : "
-                                                    +name+"\nYour email : "
-                                                    +email, Toast.LENGTH_LONG )
+                                                    + name + "\nYour email : "
+                                                    + email, Toast.LENGTH_LONG)
                                             .show();
                                     loading.setVisibility(View.GONE);
                                 }
@@ -107,7 +125,7 @@ public class LoginFragment extends Fragment {
                             e.printStackTrace();
                             loading.setVisibility(View.GONE);
                             btn_login.setVisibility(View.VISIBLE);
-                            Toast.makeText(getContext(),"Login Error" + e.toString(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Login Error" + e.toString(), Toast.LENGTH_LONG).show();
                         }
                     }
                 },
@@ -116,13 +134,12 @@ public class LoginFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         loading.setVisibility(View.GONE);
                         btn_login.setVisibility(View.VISIBLE);
-                        Toast.makeText(getContext(),"Login Error" + error.toString(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Login Error" + error.toString(), Toast.LENGTH_LONG).show();
                     }
-                })
-        {
+                }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<>();
+                Map<String, String> params = new HashMap<>();
                 params.put("email", email);
                 params.put("password", password);
                 return params;
@@ -134,9 +151,11 @@ public class LoginFragment extends Fragment {
 
     }
 
-    private void OpenRegisterFragment(){
-            Intent intent = new Intent(getActivity(), RegisterFragment.class);
-            startActivity(intent);
-
+    // not working in this moment
+    private void OpenRegisterFragment() {
+        Intent intent = new Intent(getActivity(), RegisterFragment.class);
+        startActivity(intent);
     }
+
 }
+
