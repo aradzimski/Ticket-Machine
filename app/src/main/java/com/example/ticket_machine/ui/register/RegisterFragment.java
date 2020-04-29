@@ -34,18 +34,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterFragment extends Fragment {
-    private EditText name, email, password, c_password;
+    private RegisterViewModel registerViewModel;
+    private EditText name, last_name, email, password, c_password;
     private Button btn_regist;
     private ProgressBar loading;
-    private static String URL_REGIST = "https://ticketmachine.hostingasp.pl/register.php";
+    private static String URL_REGIST;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        registerViewModel =
+                ViewModelProviders.of(this).get(RegisterViewModel.class);
         View view = inflater.inflate(R.layout.fragment_register, container, false);
+        final TextView textView = view.findViewById(R.id.text_events);
+        registerViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });
 
+        URL_REGIST = getString(R.string.URL_REGIST);
         loading = view.findViewById(R.id.loading);
         name = view.findViewById(R.id.name);
+        last_name = view.findViewById(R.id.last_name);
         email = view.findViewById(R.id.email);
         password = view.findViewById(R.id.password);
         c_password = view.findViewById(R.id.c_password);
@@ -57,6 +68,7 @@ public class RegisterFragment extends Fragment {
                 Regist();
             }
         });
+
         return view;
     }
 
@@ -65,6 +77,7 @@ public class RegisterFragment extends Fragment {
         btn_regist.setVisibility(View.GONE);
 
         final String name = this.name.getText().toString().trim();
+        final String last_name = this.last_name.getText().toString().trim();
         final String email = this.email.getText().toString().trim();
         final String password = this.password.getText().toString().trim();
 
@@ -78,6 +91,8 @@ public class RegisterFragment extends Fragment {
 
                             if(success.equals("1")){
                                 Toast.makeText(getContext(),"Register Success",Toast.LENGTH_LONG).show();
+                                loading.setVisibility(View.GONE);
+                                btn_regist.setVisibility(View.GONE);
                             }
                         }catch (JSONException e){
                             e.printStackTrace();
@@ -100,6 +115,7 @@ public class RegisterFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
                 params.put("name", name); // "name" nazwa pola w API php
+                params.put("last_name", last_name);
                 params.put("email", email);
                 params.put("password", password);
                 return params;
@@ -110,24 +126,4 @@ public class RegisterFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-
-/*
-    private RegisterViewModel registerViewModel;
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        registerViewModel =
-                ViewModelProviders.of(this).get(RegisterViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_register, container, false);
-        final TextView textView = root.findViewById(R.id.text_events);
-        registerViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
-    }
-
- */
 }
