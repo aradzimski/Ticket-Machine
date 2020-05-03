@@ -1,9 +1,14 @@
 package com.example.ticket_machine.ui.events;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ticket_machine.MainActivity;
 import com.example.ticket_machine.R;
 
 import org.json.JSONArray;
@@ -32,20 +38,23 @@ import java.util.Map;
 public class EventsFragment extends Fragment {
 
     private EventsViewModel eventsViewModel;
+    private TableLayout eventTable;
     private static String URL_EVENTS;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         eventsViewModel =
                 ViewModelProviders.of(this).get(EventsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_events, container, false);
-        final TextView textView = root.findViewById(R.id.text_events);
+        View view = inflater.inflate(R.layout.fragment_events, container, false);
+        final TextView textView = view.findViewById(R.id.text_events);
         eventsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
         });
+
+        final TableLayout eventTable = view.findViewById(R.id.event_table);
 
         URL_EVENTS = getString(R.string.URL_EVENTS);
 
@@ -62,17 +71,63 @@ public class EventsFragment extends Fragment {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
 
+                                    String id = object.getString("id").trim();
                                     String name = object.getString("name").trim();
                                     String description = object.getString("description").trim();
                                     String price = object.getString("price").trim();
 
-                                    Toast.makeText(getContext(),
-                                            "Events: \n" +
-                                                    "Event name : " + name +
-                                                    "\nEvent description : " + description +
-                                                    "\nEvent price : " + price
-                                            , Toast.LENGTH_LONG)
-                                            .show();
+                                    /// Printing all events to table
+                                    TableRow eventRow = new TableRow(getContext());
+                                    TableLayout.LayoutParams rowParams = new TableLayout.LayoutParams(
+                                            TableLayout.LayoutParams.WRAP_CONTENT,
+                                            TableLayout.LayoutParams.WRAP_CONTENT);
+                                    rowParams.setMargins(0, 10, 0, 10);
+                                    eventRow.setLayoutParams(rowParams);
+                                    eventRow.setId(Integer.parseInt(id));
+                                    eventRow.setBackgroundColor(Color.GRAY);
+                                    eventRow.setWeightSum(2);
+
+                                    TextView eventTitle = new TextView(getContext());
+                                    eventTitle.setId(Integer.parseInt(id));
+                                    eventTitle.setText(name);
+                                    eventTitle.setTextColor(Color.WHITE);
+                                    eventTitle.setTextSize(14);
+                                    eventTitle.setGravity(Gravity.FILL_VERTICAL);
+                                    eventTitle.setPadding(10,10,10,10);
+
+                                    eventRow.addView(eventTitle);
+
+                                    TextView eventDescription = new TextView(getContext());
+                                    eventDescription.setId(Integer.parseInt(id));
+                                    eventDescription.setText(description);
+                                    eventDescription.setTextColor(Color.WHITE);
+                                    eventDescription.setTextSize(12);
+                                    eventDescription.setGravity(Gravity.FILL_VERTICAL);
+                                    eventDescription.setPadding(10,10,10,10);
+
+                                    eventRow.addView(eventDescription);
+
+                                    TextView eventPrice = new TextView(getContext());
+                                    eventPrice.setId(Integer.parseInt(id));
+                                    eventPrice.setText(price);
+                                    eventPrice.setTextColor(Color.RED);
+                                    eventPrice.setTextSize(15);
+                                    eventPrice.setGravity(Gravity.FILL_VERTICAL);
+                                    eventPrice.setPadding(10,10,10,10);
+
+                                    eventRow.addView(eventPrice);
+
+                                    eventTable.addView(eventRow);
+                                    eventTable.setShrinkAllColumns(true);
+
+
+//                                    Toast.makeText(getContext(),
+//                                            "Events: \n" +
+//                                                    "Event name : " + name +
+//                                                    "\nEvent description : " + description +
+//                                                    "\nEvent price : " + price
+//                                            , Toast.LENGTH_LONG)
+//                                            .show();
                                 }
                             }
                         } catch (JSONException e) {
@@ -92,6 +147,6 @@ public class EventsFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
 
-        return root;
+        return view;
     }
 }
