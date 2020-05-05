@@ -6,7 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -25,8 +25,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ticket_machine.MainActivity;
 import com.example.ticket_machine.R;
+import com.example.ticket_machine.tools.SharedPreferenceConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,12 +34,15 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class EventsFragment extends Fragment {
 
+    private SharedPreferenceConfig preferenceConfig;
     private EventsViewModel eventsViewModel;
     private TableLayout eventTable;
     private static String URL_EVENTS;
+    private static String URL_ADDTICKET;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class EventsFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        preferenceConfig = new SharedPreferenceConfig(getContext());
 
         final TableLayout eventTable = view.findViewById(R.id.event_table);
 
@@ -117,6 +122,20 @@ public class EventsFragment extends Fragment {
 
                                     eventRow.addView(eventPrice);
 
+                                    Button eventButton = new Button(getContext());
+                                    eventButton.setId(Integer.parseInt(id));
+                                    eventButton.setText(R.string.btn_buyticket);
+                                    eventButton.setTextSize(12);
+                                    eventButton.setPadding(10,10,10,10);
+                                    eventButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            buyTicket(v);
+                                        }
+                                    });
+
+                                    eventRow.addView(eventButton);
+
                                     eventTable.addView(eventRow);
                                     eventTable.setShrinkAllColumns(true);
 
@@ -148,5 +167,51 @@ public class EventsFragment extends Fragment {
         requestQueue.add(stringRequest);
 
         return view;
+    }
+
+    public void buyTicket(View v)
+    {
+        final String event_id = Integer.toString(v.getId());
+        final String user_id = preferenceConfig.LoadUserId();
+        final String key = UUID.randomUUID().toString().replaceAll("-", "");
+
+        URL_ADDTICKET = getString(R.string.URL_ADDTICKET);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_ADDTICKET,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String success = jsonObject.getString("success");
+
+                            if(success.equals("1")){
+                                Toast.makeText(getContext(),"Ticket ID: " + key,Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e){
+                            e.printStackTrace();
+                            Toast.makeText(getContext(),"Cannot buy ticket. Error: " + e.toString(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(),"Cannot buy ticket. Error: " + error.toString(),Toast.LENGTH_LONG).show();
+                    }
+                })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("event_id", event_id);
+                params.put("user_id", user_id);
+                params.put("key", key);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
     }
 }
