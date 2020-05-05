@@ -1,5 +1,7 @@
 package com.example.ticket_machine.ui.register;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ticket_machine.MainActivity;
 import com.example.ticket_machine.R;
 
 import org.json.JSONException;
@@ -93,6 +96,7 @@ public class RegisterFragment extends Fragment {
                                 Toast.makeText(getContext(),"Register Success",Toast.LENGTH_LONG).show();
                                 loading.setVisibility(View.GONE);
                                 btn_regist.setVisibility(View.GONE);
+                                moveToNewActivity();
                             }
                         }catch (JSONException e){
                             e.printStackTrace();
@@ -124,6 +128,12 @@ public class RegisterFragment extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
+    }
+
+    private void moveToNewActivity () {
+        Intent i = new Intent(getActivity(), MainActivity.class);
+        startActivity(i);
+        ((Activity) getActivity()).overridePendingTransition(0, 0); // (0,0) it means no animation on transition
     }
 
 }
