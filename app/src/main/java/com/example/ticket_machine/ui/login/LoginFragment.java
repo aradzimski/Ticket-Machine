@@ -97,10 +97,12 @@ public class LoginFragment extends Fragment {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
 
+                                    String id = object.getString("id").trim();
                                     String name = object.getString("name").trim();
                                     String email = object.getString("email").trim();
                                     String role = object.getString("permission_level");
                                     preferenceConfig.SaveUserRole(role);
+                                    preferenceConfig.SaveUserId(id);
 
                                     Toast.makeText(getContext(),
                                             "Success Login. \nYour name : "

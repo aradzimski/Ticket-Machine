@@ -1,5 +1,6 @@
 package com.example.ticket_machine.tools;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -36,5 +37,17 @@ public class SharedPreferenceConfig {
         String role = "0";
         role  = sharedPreference.getString(context.getResources().getString(R.string.login_role_preference) ,role);
         return role;
+    }
+
+    public void SaveUserId(String id){
+        SharedPreferences.Editor editor = sharedPreference.edit();
+        editor.putString(context.getResources().getString(R.string.login_id_preference), id);
+        editor.apply();
+    }
+
+    public String LoadUserId(){
+        String id = "0";
+        id = sharedPreference.getString(context.getResources().getString(R.string.login_id_preference), id);
+        return id;
     }
 }
