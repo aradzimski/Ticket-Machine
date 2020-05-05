@@ -2,13 +2,15 @@
     <!-- URL -->
     <string name="URL_REGIST">https://ticketmachine.hostingasp.pl/register.php</string>
     <string name="URL_LOGIN">https://ticketmachine.hostingasp.pl/login.php</string>
-    <string name="URL_EVENTS">https://ticketmachine.hostingasp.pl/getevents.php</string>
+    <string name="URL_EVENTS">https://ticketmachine.hostingasp.pl/getEvents.php</string>
+    <string name="URL_ADDTICKET">https://ticketmachine.hostingasp.pl/addTicket.php</string>
     <!-- /URL -->
 
     <!-- Tools -->
     <string name="login_preference">com.example.ticket_machine_login_preference</string>
     <string name="login_status_preference">com.example.ticket_machine_login_status_preference</string>
     <string name="login_role_preference">com.example.ticket_machine_login_role_preference</string>
+    <string name="login_id_preference">com.example.ticket_machine_login_id_preference</string>
     <string name="role_admin">admin</string>
     <string name="role_bodyguard">bodyguard</string>
     <string name="role_customer">customer</string>
@@ -61,6 +63,7 @@
 
     <!--Events-->
     <string name="events_first_header">Events</string>
+    <string name="btn_buyticket">Buy ticket</string>
     <!--/Events-->
 
     <!--Tickets-->
