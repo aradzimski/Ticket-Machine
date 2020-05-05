@@ -1,14 +1,11 @@
 package com.example.ticket_machine.ui.login;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,23 +23,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ticket_machine.MainActivity;
 import com.example.ticket_machine.R;
-import com.example.ticket_machine.ui.register.RegisterFragment;
-import com.example.ticket_machine.ui.register.RegisterViewModel;
-
+import com.example.ticket_machine.tools.SharedPreferenceConfig;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoginFragment extends Fragment {
+    private SharedPreferenceConfig preferenceConfig;
+
     private LoginViewModel loginViewModel;
     private EditText email, password;
     private Button btn_login;
-    private TextView link_regist;
     private ProgressBar loading;
     private static String URL_LOGIN;
 
@@ -59,13 +53,13 @@ public class LoginFragment extends Fragment {
                 textView.setText(s);
             }
         });
+        preferenceConfig = new SharedPreferenceConfig(getContext());
 
         URL_LOGIN = getString(R.string.URL_LOGIN);
         loading = view.findViewById(R.id.loading);
         email = view.findViewById(R.id.email);
         password = view.findViewById(R.id.password);
         btn_login = view.findViewById(R.id.login_btn);
-        link_regist = view.findViewById(R.id.link_regist);
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,21 +75,13 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
-
-        link_regist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //startActivity(new Intent(getActivity(), RegisterFragment.class)); //LoginFragment.this,
-                OpenRegisterFragment();
-            }
-        });
         return view;
     }
-
 
     private void Login(final String email, final String password) {
         loading.setVisibility(View.VISIBLE);
         btn_login.setVisibility(View.GONE);
+        final String permission_level = "0";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_LOGIN,
                 new Response.Listener<String>() {
@@ -107,19 +93,26 @@ public class LoginFragment extends Fragment {
                             JSONArray jsonArray = jsonObject.getJSONArray("login");
 
                             if (success.equals("1")) {
+
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
 
                                     String name = object.getString("name").trim();
                                     String email = object.getString("email").trim();
+                                    String role = object.getString("permission_level");
+                                    preferenceConfig.SaveUserRole(role);
 
                                     Toast.makeText(getContext(),
                                             "Success Login. \nYour name : "
                                                     + name + "\nYour email : "
-                                                    + email, Toast.LENGTH_LONG)
+                                                    + email + "\nRole : " + role
+                                            , Toast.LENGTH_LONG)
                                             .show();
                                     loading.setVisibility(View.GONE);
                                 }
+                                preferenceConfig.SaveLoginStatus(true);  // Save that we are login
+
+                                moveToNewActivity();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -142,19 +135,19 @@ public class LoginFragment extends Fragment {
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
                 params.put("password", password);
+                params.put("permission_level", permission_level);
                 return params;
             }
         };
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
-
     }
 
-    // not working in this moment
-    private void OpenRegisterFragment() {
-        Intent intent = new Intent(getActivity(), RegisterFragment.class);
-        startActivity(intent);
+    private void moveToNewActivity () {
+        Intent i = new Intent(getActivity(), MainActivity.class);
+        startActivity(i);
+        ((Activity) getActivity()).overridePendingTransition(0, 0); // (0,0) it means no animation on transition
     }
 
 }
