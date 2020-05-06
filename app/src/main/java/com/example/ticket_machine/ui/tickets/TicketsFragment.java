@@ -18,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -84,7 +86,7 @@ public class TicketsFragment extends Fragment {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
 
-                                    String id = object.getString("id").trim();
+                                    final String id = object.getString("id").trim();
                                     String event_id = object.getString("event_id").trim();
                                     String user_id = object.getString("user_id").trim();
                                     String key = object.getString("key").trim();
@@ -121,6 +123,27 @@ public class TicketsFragment extends Fragment {
                                     ticketCreationDate.setPadding(10,10,10,10);
 
                                     ticketRow.addView(ticketCreationDate);
+
+                                    ticketRow.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                            // Change view on click
+
+//                                            Bundle bundle = new Bundle();
+//                                            String ticket_id = id;
+//                                            bundle.putString("ticket_id", ticket_id);
+//                                            QrTicketFragment fragment = new QrTicketFragment();
+//                                            fragment.setArguments(bundle);
+//
+//                                            FragmentManager fm = getFragmentManager();
+//                                            FragmentTransaction ft = fm.beginTransaction();
+//                                            ft.addToBackStack("xyz");
+//                                            ft.hide(TicketsFragment.this);
+//                                            ft.add(android.R.id.content, fragment);
+//                                            ft.commit();
+                                        }
+                                    });
 
                                     ticketTable.addView(ticketRow);
                                     ticketTable.setShrinkAllColumns(true);
