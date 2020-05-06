@@ -138,15 +138,6 @@ public class EventsFragment extends Fragment {
 
                                     eventTable.addView(eventRow);
                                     eventTable.setShrinkAllColumns(true);
-
-
-//                                    Toast.makeText(getContext(),
-//                                            "Events: \n" +
-//                                                    "Event name : " + name +
-//                                                    "\nEvent description : " + description +
-//                                                    "\nEvent price : " + price
-//                                            , Toast.LENGTH_LONG)
-//                                            .show();
                                 }
                             }
                         } catch (JSONException e) {
