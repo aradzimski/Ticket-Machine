@@ -4,6 +4,7 @@
     <string name="URL_LOGIN">https://ticketmachine.hostingasp.pl/login.php</string>
     <string name="URL_EVENTS">https://ticketmachine.hostingasp.pl/getEvents.php</string>
     <string name="URL_ADDTICKET">https://ticketmachine.hostingasp.pl/addTicket.php</string>
+    <string name="URL_GETUSERTICKETS">https://ticketmachine.hostingasp.pl/getUserTickets.php</string>
     <!-- /URL -->
 
     <!-- Tools -->
