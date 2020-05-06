@@ -21,7 +21,9 @@
     <!-- Settings -->
     <string name="action_logout">Logout</string>
     <string name="success_logout">Successfully logged out!</string>
+    <string name="can_not_logout">You are not logged in, so you can not logout!</string>
     <string name="action_settings">Settings</string>
+    <string name="text_testtings">Settings are not created yet.</string>
     <!-- /Settings -->
 
     <!-- APP -->
