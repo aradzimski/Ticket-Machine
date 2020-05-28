@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class LoginFragment extends Fragment {
     private SharedPreferenceConfig preferenceConfig;
@@ -40,6 +42,16 @@ public class LoginFragment extends Fragment {
     private Button btn_login;
     private ProgressBar loading;
     private static String URL_LOGIN;
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^" +
+                    "(?=.*[0-9])" +         //at least 1 digit
+                    "(?=.*[a-z])" +         //at least 1 lower case letter
+                    "(?=.*[A-Z])" +         //at least 1 upper case letter
+                    "(?=.*[a-zA-Z])" +      //any letter
+                    "(?=.*[@#$%^&+=])" +    //at least 1 special character
+                    "(?=\\S+$)" +           //no white spaces
+                    ".{4,}" +               //at least 4 characters
+                    "$");
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -64,15 +76,7 @@ public class LoginFragment extends Fragment {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mEmail = email.getText().toString().trim();
-                String mPass = password.getText().toString().trim();
-
-                if (!mEmail.isEmpty() || !mPass.isEmpty()) {
-                    Login(mEmail, mPass);
-                } else {
-                    email.setError("Please insert email;");
-                    password.setError("Please insert password;");
-                }
+                confirmInputAndLogin(v);
             }
         });
         return view;
@@ -81,7 +85,6 @@ public class LoginFragment extends Fragment {
     private void Login(final String email, final String password) {
         loading.setVisibility(View.VISIBLE);
         btn_login.setVisibility(View.GONE);
-        //final String permission_level = "0";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_LOGIN,
                 new Response.Listener<String>() {
@@ -89,10 +92,10 @@ public class LoginFragment extends Fragment {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            String success = jsonObject.getString("success");
+                            String success = jsonObject.getString(getString(R.string.success));
                             JSONArray jsonArray = jsonObject.getJSONArray("login");
 
-                            if (success.equals("1")) {
+                            if (success.equals(getString(R.string.one))) {
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
@@ -112,8 +115,15 @@ public class LoginFragment extends Fragment {
                                             .show();
                                     loading.setVisibility(View.GONE);
                                 }
-
                                 moveToNewActivity();
+                            }
+                            else {
+                                Toast.makeText(getContext(),
+                                        "Login failure, user or password is incorrect!"
+                                        , Toast.LENGTH_LONG)
+                                        .show();
+                                loading.setVisibility(View.GONE);
+                                btn_login.setVisibility(View.VISIBLE);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -148,6 +158,45 @@ public class LoginFragment extends Fragment {
         Intent i = new Intent(getActivity(), MainActivity.class);
         startActivity(i);
         ((Activity) getActivity()).overridePendingTransition(0, 0); // (0,0) it means no animation on transition
+    }
+
+    private boolean validateEmail() {
+        String email_input = email.getText().toString().trim();
+        if (email_input.isEmpty()) {
+            email.setError("Field can't be empty!");
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email_input).matches()) {
+            email.setError("Please enter a valid email address.");
+            return false;
+        } else {
+            email.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validatePassword() {
+        String password_input = password.getText().toString().trim();
+        if (password_input.isEmpty()) {
+            password.setError("Field can't be empty!");
+            return false;
+        } else if (!PASSWORD_PATTERN.matcher(password_input).matches()) {
+            password.setError("Password too weak, require 1 digit, 1 lower, 1 upper and 1 special character.");
+            return false;
+        } else {
+            password.setError(null);
+            return true;
+        }
+    }
+
+    public void confirmInputAndLogin(View v) {
+        if (!validateEmail() | !validatePassword()) {
+            return;
+        }else{
+            String email_input = email.getText().toString().trim();
+            String password_input = password.getText().toString().trim();
+
+            Login(email_input, password_input);
+        }
     }
 
 }

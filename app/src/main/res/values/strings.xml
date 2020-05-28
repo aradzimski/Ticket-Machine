@@ -38,6 +38,11 @@
     <string name="home_second">Home Second</string>
     <!-- /APP -->
 
+    <!-- General request strings -->
+    <string name="success">success</string>
+    <string name="one">1</string>
+    <!-- /General request strings -->
+
     <!--Navigation-->
     <string name="menu_home">Home</string>
     <string name="menu_events">Parties</string>
