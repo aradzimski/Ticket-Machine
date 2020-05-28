@@ -232,7 +232,7 @@ public class RegisterFragment extends Fragment {
         }
     }
 
-    public void confirmInputAndRegister(View v) {
+    private void confirmInputAndRegister(View v) {
         if (!validateName() | !validateLastName() | !validateEmail() | !validatePassword() | !validateConfirmPassword()) {
             return;
         }else{

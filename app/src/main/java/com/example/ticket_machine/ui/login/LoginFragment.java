@@ -188,7 +188,7 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    public void confirmInputAndLogin(View v) {
+    private void confirmInputAndLogin(View v) {
         if (!validateEmail() | !validatePassword()) {
             return;
         }else{
