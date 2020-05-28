@@ -1,6 +1,8 @@
 package com.example.ticket_machine;
 
 import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +13,8 @@ import android.widget.Toast;
 
 import com.example.ticket_machine.tools.SharedPreferenceConfig;
 import com.example.ticket_machine.ui.home.HomeFragment;
+import com.example.ticket_machine.ui.tickets.TicketActivity;
+import com.example.ticket_machine.ui.tickets.TicketFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -96,6 +100,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings :
                 Toast.makeText(this,getResources().getString(R.string.text_testtings),Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.action_tickets :
+                Context context = getApplicationContext();
+                Intent intent = new Intent(context, TicketsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }
