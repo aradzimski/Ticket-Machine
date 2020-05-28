@@ -1,30 +1,17 @@
 package com.example.ticket_machine.tools;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import com.example.ticket_machine.R;
 
 public class SharedPreferenceConfig {
     private SharedPreferences sharedPreference;
     private Context context;
+    private String role_none;
 
     public SharedPreferenceConfig(Context context){
         this.context = context;
+        role_none = context.getResources().getString(R.string.role_none);
         sharedPreference = context.getSharedPreferences(context.getResources().getString(R.string.login_preference),Context.MODE_PRIVATE);
-    }
-
-    public void SaveLoginStatus(boolean status){
-        SharedPreferences.Editor editor = sharedPreference.edit();
-        editor.putBoolean(context.getResources().getString(R.string.login_status_preference),status);
-        editor.apply();
-    }
-
-    public boolean LoadLoginStatus(){
-        boolean status = false;
-        status  = sharedPreference.getBoolean(context.getResources().getString(R.string.login_status_preference),false);
-        return status;
     }
 
     public void SaveUserRole(String role){
@@ -34,7 +21,7 @@ public class SharedPreferenceConfig {
     }
 
     public String LoadUserRole(){
-        String role = "0";
+        String role = role_none;
         role  = sharedPreference.getString(context.getResources().getString(R.string.login_role_preference) ,role);
         return role;
     }

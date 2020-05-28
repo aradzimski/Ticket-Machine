@@ -81,7 +81,7 @@ public class LoginFragment extends Fragment {
     private void Login(final String email, final String password) {
         loading.setVisibility(View.VISIBLE);
         btn_login.setVisibility(View.GONE);
-        final String permission_level = "0";
+        //final String permission_level = "0";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_LOGIN,
                 new Response.Listener<String>() {
@@ -101,18 +101,17 @@ public class LoginFragment extends Fragment {
                                     String name = object.getString("name").trim();
                                     String email = object.getString("email").trim();
                                     String role = object.getString("permission_level");
-                                    preferenceConfig.SaveUserRole(role);
+                                    preferenceConfig.SaveUserRole(role); // Save user role/permission_level
                                     preferenceConfig.SaveUserId(id);
 
                                     Toast.makeText(getContext(),
-                                            "Success Login. \nYour name : "
-                                                    + name + "\nYour email : "
-                                                    + email + "\nRole : " + role
+                                            "Success Login. \nYour name : " + name
+                                                    + "\nYour email : " + email
+                                                    + "\nRole : " + role
                                             , Toast.LENGTH_LONG)
                                             .show();
                                     loading.setVisibility(View.GONE);
                                 }
-                                preferenceConfig.SaveLoginStatus(true);  // Save that we are login
 
                                 moveToNewActivity();
                             }
@@ -137,7 +136,6 @@ public class LoginFragment extends Fragment {
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
                 params.put("password", password);
-                params.put("permission_level", permission_level);
                 return params;
             }
         };
