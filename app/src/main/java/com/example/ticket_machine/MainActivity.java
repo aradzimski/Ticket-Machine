@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferenceConfig preferenceConfig;
     private NavigationView navigationView;
     private DrawerLayout drawer;
+    private String role_none,role_customer,role_bodyguard,role_admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +43,17 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         preferenceConfig = new SharedPreferenceConfig(getApplicationContext());
-
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
-        //showedMenuItem();
+        // Get role name from resources.
+        role_none = getResources().getString(R.string.role_none);
+        role_customer = getResources().getString(R.string.role_customer);
+        role_bodyguard = getResources().getString(R.string.role_bodyguard);
+        role_admin = getResources().getString(R.string.role_admin);
 
-        if(preferenceConfig.LoadLoginStatus() == false){
-            hideItemBeforeLogin();
-            //Toast.makeText(getApplicationContext(), "Preference on create is: "+preferenceConfig.LoadLoginStatus(), Toast.LENGTH_LONG).show();
-        }
+        // Show proper item in navigation menu, depends on user permissions level.
+        showedMenuItem();
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -71,18 +73,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        //showedMenuItem();
-
-        if(preferenceConfig.LoadLoginStatus() == true & preferenceConfig.LoadUserRole().equals("1")){
-            showItemAfterLogin();
-            //Toast.makeText(getApplicationContext(),"Preference: "+preferenceConfig.LoadLoginStatus() + " Role: " + preferenceConfig.LoadUserRole(), Toast.LENGTH_LONG).show();
-        }
-        if(preferenceConfig.LoadLoginStatus() == false) {
-            hideItemBeforeLogin();
-        }
-
-
+        // Show proper item in navigation menu, depends on user permissions level.
+        showedMenuItem();
     }
 
     @Override
@@ -93,20 +85,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
             case R.id.action_logout :
-                preferenceConfig.SaveLoginStatus(false);
-                moveToNewActivity();
-                Toast.makeText(this,getResources().getString(R.string.success_logout),Toast.LENGTH_SHORT).show();
+                String permission_level = preferenceConfig.LoadUserRole();
+                if(permission_level.equals(role_none)){
+                    Toast.makeText(this,getResources().getString(R.string.can_not_logout),Toast.LENGTH_SHORT).show();
+                }else{
+                    preferenceConfig.SaveUserRole(role_none);
+                    moveToNewActivity();
+                    Toast.makeText(this,getResources().getString(R.string.success_logout),Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.action_settings :
-                Toast.makeText(this,getResources().getString(R.string.action_settings),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,getResources().getString(R.string.text_testtings),Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_tickets :
                 Context context = getApplicationContext();
@@ -125,49 +117,70 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    // To hide element from navigation menu !!!!
-    private void hideItemBeforeLogin() {
-        Menu nav_Menu = navigationView.getMenu();
-
-        //nav_Menu.findItem(R.id.nav_register).setVisible(true);
-        //nav_Menu.findItem(R.id.nav_login).setVisible(true);
-
-        nav_Menu.findItem(R.id.nav_tickets).setVisible(false);
-        nav_Menu.findItem(R.id.nav_events).setVisible(false);
+    //  To show base element from navigation menu before login to app !
+    private void itemBeforeLogin(Menu nav) {
+        nav.findItem(R.id.nav_tickets).setVisible(false);
+        nav.findItem(R.id.nav_events).setVisible(false);
+        nav.findItem(R.id.nav_register).setVisible(true);
+        nav.findItem(R.id.nav_login).setVisible(true);
     }
 
-    // To show element from navigation menu !!!!
-    private void showItemAfterLogin(){
-        Menu nav_Menu = navigationView.getMenu();
-        nav_Menu.findItem(R.id.nav_register).setVisible(false);
-        nav_Menu.findItem(R.id.nav_login).setVisible(false);
-        nav_Menu.findItem(R.id.nav_tickets).setVisible(true);
-        nav_Menu.findItem(R.id.nav_events).setVisible(true);
+    // To hide base element from navigation menu after login to app !
+    private void itemAfterLogin(Menu nav){
+        nav.findItem(R.id.nav_register).setVisible(false);
+        nav.findItem(R.id.nav_login).setVisible(false);
     }
 
-/*
     public void showedMenuItem(){
         String permission_level = preferenceConfig.LoadUserRole();
+        Menu nav_Menu = navigationView.getMenu();
 
-        switch(permission_level){
-            case "1":
-                showItemAfterLogin();
-                Toast.makeText(getApplicationContext(),"Preference: "+preferenceConfig.LoadLoginStatus() + " Role: " + preferenceConfig.LoadUserRole(), Toast.LENGTH_LONG).show();
-            case "2":
-                showItemAfterLogin();
-            case "3":
-                showItemAfterLogin();
-            default:
-                hideItemBeforeLogin();
+        if(permission_level.equals(role_customer)){
+            itemAfterLogin(nav_Menu);
+            nav_Menu.findItem(R.id.nav_tickets).setVisible(true);
+            nav_Menu.findItem(R.id.nav_events).setVisible(true);
+            Toast.makeText(getApplicationContext()," Role: " + preferenceConfig.LoadUserRole(), Toast.LENGTH_LONG).show();
+        }else if(permission_level.equals(role_bodyguard)){
+            itemAfterLogin(nav_Menu);
+            nav_Menu.findItem(R.id.nav_tickets).setVisible(false);
+            nav_Menu.findItem(R.id.nav_events).setVisible(true);
+        }else if(permission_level.equals(role_admin)){
+            itemAfterLogin(nav_Menu);
+            nav_Menu.findItem(R.id.nav_tickets).setVisible(true);
+            nav_Menu.findItem(R.id.nav_events).setVisible(false);
+        }else{
+            itemBeforeLogin(nav_Menu);
         }
-
+        /* Switch looks better but you can't use it because "case" requires constant variables,
+        *  we can not get them from resources.
+        * *
+        switch(permission_level){
+            case "customer":
+                itemAfterLogin(nav_Menu);
+                nav_Menu.findItem(R.id.nav_tickets).setVisible(true);
+                nav_Menu.findItem(R.id.nav_events).setVisible(true);
+                Toast.makeText(getApplicationContext(),"Preference: "+preferenceConfig.LoadLoginStatus() + " Role: " + preferenceConfig.LoadUserRole(), Toast.LENGTH_LONG).show();
+                break;
+            case "bodyguard":
+                itemAfterLogin(nav_Menu);
+                nav_Menu.findItem(R.id.nav_tickets).setVisible(false);
+                nav_Menu.findItem(R.id.nav_events).setVisible(true);
+                break;
+            case "admin":
+                itemAfterLogin(nav_Menu);
+                nav_Menu.findItem(R.id.nav_tickets).setVisible(true);
+                nav_Menu.findItem(R.id.nav_events).setVisible(false);
+                break;
+            default:
+                itemBeforeLogin(nav_Menu);
+        }
+        */
     }
-*/
+
     private void moveToNewActivity () {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
         (this).overridePendingTransition(0, 0); // (0,0) it means no animation on transition
-
     }
 }
