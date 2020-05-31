@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.login.LoginFragment"></activity>
+        <activity android:name=".ui.accounts.AccountsActivity"></activity>
+        <activity android:name=".ui.login.LoginFragment" />
         <activity android:name=".ui.register.RegisterFragment" />
         <activity android:name=".TicketsActivity" />
         <activity android:name=".ui.tickets.TicketActivity" />
