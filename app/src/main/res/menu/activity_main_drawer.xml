@@ -32,7 +32,6 @@
             android:id="@+id/nav_scanner"
             android:icon="@drawable/ic_menu_scanner"
             android:title="@string/menu_scanner" />
-
     </group>
 
 
