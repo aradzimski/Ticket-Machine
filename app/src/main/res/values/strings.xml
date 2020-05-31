@@ -6,6 +6,8 @@
     <string name="URL_ADDTICKET">https://ticketmachine.hostingasp.pl/addTicket.php</string>
     <string name="URL_GETUSERTICKETS">https://ticketmachine.hostingasp.pl/getUserTickets.php</string>
     <string name="URL_GETTICKET">https://ticketmachine.hostingasp.pl/getTicket.php</string>
+    <string name="URL_GETUSER">https://ticketmachine.hostingasp.pl/getUser.php</string>
+    <string name="URL_UPDATEUSERPERMISSION">https://ticketmachine.hostingasp.pl/updateUserPermission.php</string>
     <!-- /URL -->
 
     <!-- Tools -->
@@ -49,6 +51,8 @@
     <string name="menu_tickets">Tickets</string>
     <string name="menu_register">Register</string>
     <string name="menu_login">Login</string>
+    <string name="menu_accounts">Accounts</string>
+    <string name="menu_scanner">Scanner</string>
     <!--/Navigation-->
 
     <!--Home-->
@@ -80,5 +84,45 @@
     <string name="qrcode_btn_text">Generate QR</string>
     <string name="qrcode_input_description">Enter QR code string</string>
     <string name="qrcode_image_container_description">QR code</string>
+    <string name="title_activity_accounts">AccountsActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <!--/Tickets-->
+
+    <!-- Accounts fragment-->
+    <string name="btn_text_add">Add</string>
+
+    <!-- /Accounts fragment -->
+
+    <!-- Accounts activity-->
+    <string name="btn_text_search">Search</string>
+    <string name="btn_text_permission">Change permission</string>
+    <string name="text_view_user_detail">Searched user details!</string>
+    
+    <string name="toast_there_is_no_user">There is no user to change!</string>
+    <string name="toast_selected_radio_button">Selected permission: </string>
+    <string name="set_text_user">User</string>
+    <string name="set_text_first_name">\nFirst Name: </string>
+    <string name="set_text_last_name">\nLast Name: </string>
+    <string name="set_text_email">\nEmail: </string>
+    <string name="toast_user_not_find">User not found in database, try again.</string>
+    <string name="toast_search_error">Search Error: </string>
+
+    <string name="set_error_email_empty">Field can nott be empty!</string>
+    <string name="set_error_email_validation">Please enter a valid email address.</string>
+
+    <string name="toast_update_permission_success">Update permission success</string>
+    <string name="toast_update_permission_faild">Update permission failure, provided data is incorrect!</string>
+    <string name="toast_update_permission_error">Update permission error: </string>
+    <!-- /Accounts activity-->
+
+    <!-- Scanner-->
+
+    <!-- /Scanner-->
 </resources>
