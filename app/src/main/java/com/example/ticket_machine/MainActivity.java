@@ -70,6 +70,18 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        Menu nav_menu = navigationView.getMenu();
+        nav_menu.findItem(R.id.nav_tickets).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Context context = getApplicationContext();
+                Intent intent = new Intent(context, TicketsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -102,11 +114,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings :
                 Toast.makeText(this,getResources().getString(R.string.text_testtings),Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.action_tickets :
-                Context context = getApplicationContext();
-                Intent intent = new Intent(context, TicketsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -191,5 +198,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
         finish();
         (this).overridePendingTransition(0, 0); // (0,0) it means no animation on transition
+    }
+
+    private void changeToTicketsActivity() {
+        Context context = getApplicationContext();
+        Intent intent = new Intent(context, TicketsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 }
