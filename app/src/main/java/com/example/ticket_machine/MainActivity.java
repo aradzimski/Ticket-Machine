@@ -62,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_register,
                 R.id.nav_login,
                 R.id.nav_events,
-                R.id.nav_tickets)
+                R.id.nav_tickets,
+                R.id.nav_accounts,
+                R.id.nav_scanner)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -126,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
     //  To show base element from navigation menu before login to app !
     private void itemBeforeLogin(Menu nav) {
+        nav.findItem(R.id.nav_scanner).setVisible(false);
+        nav.findItem(R.id.nav_accounts).setVisible(false);
         nav.findItem(R.id.nav_tickets).setVisible(false);
         nav.findItem(R.id.nav_events).setVisible(false);
         nav.findItem(R.id.nav_register).setVisible(true);
@@ -146,13 +150,18 @@ public class MainActivity extends AppCompatActivity {
             itemAfterLogin(nav_Menu);
             nav_Menu.findItem(R.id.nav_tickets).setVisible(true);
             nav_Menu.findItem(R.id.nav_events).setVisible(true);
-            Toast.makeText(getApplicationContext()," Role: " + preferenceConfig.LoadUserRole(), Toast.LENGTH_LONG).show();
+            nav_Menu.findItem(R.id.nav_scanner).setVisible(false);
+            nav_Menu.findItem(R.id.nav_accounts).setVisible(false);
+            //Toast.makeText(getApplicationContext()," Role: " + preferenceConfig.LoadUserRole(), Toast.LENGTH_LONG).show();
         }else if(permission_level.equals(role_bodyguard)){
             itemAfterLogin(nav_Menu);
-            nav_Menu.findItem(R.id.nav_tickets).setVisible(false);
+            nav_Menu.findItem(R.id.nav_scanner).setVisible(true);
             nav_Menu.findItem(R.id.nav_events).setVisible(true);
+            nav_Menu.findItem(R.id.nav_tickets).setVisible(false);
         }else if(permission_level.equals(role_admin)){
             itemAfterLogin(nav_Menu);
+            nav_Menu.findItem(R.id.nav_scanner).setVisible(true);
+            nav_Menu.findItem(R.id.nav_accounts).setVisible(true);
             nav_Menu.findItem(R.id.nav_tickets).setVisible(true);
             nav_Menu.findItem(R.id.nav_events).setVisible(false);
         }else{
