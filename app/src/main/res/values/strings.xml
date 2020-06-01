@@ -8,6 +8,7 @@
     <string name="URL_GETTICKET">https://ticketmachine.hostingasp.pl/getTicket.php</string>
     <string name="URL_GETUSER">https://ticketmachine.hostingasp.pl/getUser.php</string>
     <string name="URL_UPDATEUSERPERMISSION">https://ticketmachine.hostingasp.pl/updateUserPermission.php</string>
+    <string name="URL_GETEVENT">https://ticketmachine.hostingasp.pl/getEvent.php</string>
     <!-- /URL -->
 
     <!-- Tools -->
