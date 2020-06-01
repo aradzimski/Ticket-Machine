@@ -124,6 +124,6 @@
     <!-- /Accounts activity-->
 
     <!-- Scanner-->
-
+    <string name="btn_text_scan">Scan QR Code</string>
     <!-- /Scanner-->
 </resources>

@@ -43,7 +43,7 @@ public class ScannerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.scanner_detail, container, false);
+         final View rootView = inflater.inflate(R.layout.scanner_detail, container, false);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
 
