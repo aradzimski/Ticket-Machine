@@ -17,7 +17,7 @@ public class TicketActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_detail);
+        setContentView(R.layout.activity_ticket_detail);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity

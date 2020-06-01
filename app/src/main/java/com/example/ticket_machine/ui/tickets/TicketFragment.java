@@ -52,7 +52,7 @@ public class TicketFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.item_detail, container, false);
+        final View rootView = inflater.inflate(R.layout.ticket_detail, container, false);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
 
@@ -80,7 +80,7 @@ public class TicketFragment extends Fragment {
                                         mItem.EventName = object.getString("name").trim();
 
                                         if (mItem != null) {
-                                            ((ImageView) rootView.findViewById(R.id.item_detail)).setImageBitmap(GenerateQRCode(mItem.Key));
+                                            ((ImageView) rootView.findViewById(R.id.ticket_detail)).setImageBitmap(GenerateQRCode(mItem.Key));
                                         }
 
                                         Activity activity = getActivity();

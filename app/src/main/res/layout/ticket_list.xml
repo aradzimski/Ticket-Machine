@@ -2,7 +2,7 @@
 <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_list"
+    android:id="@+id/ticket_list"
     android:name="com.example.myapplication.ItemListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,4 +10,4 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".TicketsActivity"
-    tools:listitem="@layout/item_list_content" />
+    tools:listitem="@layout/ticket_list_content" />
