@@ -17,13 +17,19 @@
         android:layout_gravity="center"
         tools:context=".ui.scanner.ScannerFragment" />
 
-    <Button xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/btn_scan"
-        android:layout_width="300dp"
-        android:layout_height="80dp"
-        android:text="@string/btn_text_scan"
-        android:layout_below="@+id/scanner_detail"
+    <SurfaceView
+        android:id="@+id/camera_preview"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center"/>
+        android:layout_below="@+id/scanner_detail"/>
+
+    <TextView
+        android:id="@+id/scan_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_below="@+id/camera_preview"/>
 
 </LinearLayout>
