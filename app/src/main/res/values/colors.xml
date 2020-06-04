@@ -9,4 +9,7 @@
     <color name="colorBlack">#0c001e</color>
     <color name="colorGray">#474747</color>
     <color name="colorDirtyWhite">#DFD5D5</color>
+  
+    <color name="ticket_valid">#33db2a</color>
+    <color name="ticket_invalid">#db2a2a</color>
 </resources>

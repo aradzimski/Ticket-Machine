@@ -1,23 +1,20 @@
-package com.example.ticket_machine.ui.tickets;
+package com.example.ticket_machine.ui.scanner;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.ticket_machine.R;
-import com.example.ticket_machine.TicketsActivity;
-
-import android.view.View;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.MenuItem;
+import com.example.ticket_machine.R;
+import com.example.ticket_machine.ScannerActivity;
 
-public class TicketActivity extends AppCompatActivity {
+public class ScannerEventsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ticket_detail);
+        setContentView(R.layout.activity_scanner_detail);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -32,9 +29,9 @@ public class TicketActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(TicketFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(TicketFragment.ARG_ITEM_ID));
-            TicketFragment fragment = new TicketFragment();
+            arguments.putString(ScannerFragment.ARG_ITEM_ID,
+                    getIntent().getStringExtra(ScannerFragment.ARG_ITEM_ID));
+            ScannerFragment fragment = new ScannerFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.item_detail_container, fragment)
@@ -52,7 +49,7 @@ public class TicketActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, TicketsActivity.class));
+            navigateUpTo(new Intent(this, ScannerActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
