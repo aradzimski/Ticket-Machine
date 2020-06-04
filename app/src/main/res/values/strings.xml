@@ -8,6 +8,7 @@
     <string name="URL_GETTICKET">https://ticketmachine.hostingasp.pl/getTicket.php</string>
     <string name="URL_GETUSER">https://ticketmachine.hostingasp.pl/getUser.php</string>
     <string name="URL_UPDATEUSERPERMISSION">https://ticketmachine.hostingasp.pl/updateUserPermission.php</string>
+    <string name="URL_GETPRIVILEGEDUSERS">https://ticketmachine.hostingasp.pl/getPrivilegedUsers.php</string>
     <string name="URL_GETEVENT">https://ticketmachine.hostingasp.pl/getEvent.php</string>
     <string name="URL_GETTICKETBYKEY">https://ticketmachine.hostingasp.pl/getTicketByKey.php</string>
     <string name="URL_UPDATETICKETSTATUS">https://ticketmachine.hostingasp.pl/updateTicketStatus.php</string>
@@ -31,6 +32,11 @@
     <string name="action_settings">Settings</string>
     <string name="text_testtings">Settings are not created yet.</string>
     <!-- /Settings -->
+
+    <!-- Error -->
+    <string name="response_catch_error">Error occured. Try again. Catch Error: </string>
+    <string name="response_listener_error">Error occured. Try again. Listener Error:</string>
+    <!-- /Error -->
 
     <!-- APP -->
     <string name="app_name">TicketMachine</string>
@@ -99,7 +105,7 @@
     <!--/Tickets-->
 
     <!-- Accounts fragment-->
-    <string name="btn_text_add">Add</string>
+    <string name="btn_text_add">Add user permission</string>
 
     <!-- /Accounts fragment -->
 
@@ -117,12 +123,15 @@
     <string name="toast_user_not_find">User not found in database, try again.</string>
     <string name="toast_search_error">Search Error: </string>
 
-    <string name="set_error_email_empty">Field can nott be empty!</string>
+    <string name="set_error_email_empty">Field can not be empty!</string>
     <string name="set_error_email_validation">Please enter a valid email address.</string>
 
     <string name="toast_update_permission_success">Update permission success</string>
     <string name="toast_update_permission_faild">Update permission failure, provided data is incorrect!</string>
     <string name="toast_update_permission_error">Update permission error: </string>
+
+    <string name="text_view_first_header_a">Users in role ADMIN:</string>
+    <string name="text_view_second_header_b">Users in role BODYGUARD:</string>
     <!-- /Accounts activity-->
 
     <!-- Scanner-->

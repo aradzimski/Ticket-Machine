@@ -12,12 +12,60 @@
 
     <Button
         android:id="@+id/btn_add"
-        android:text="@string/btn_text_add"
-        android:importantForAutofill="no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:importantForAutofill="no"
+        android:text="@string/btn_text_add"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_view_first_header"
+        android:layout_width="320dp"
+        android:layout_height="20dp"
+        android:text="@string/text_view_first_header_a"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add" />
+
+    <ListView
+        android:id="@+id/users_list_view_admin"
+        android:layout_width="320dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:textSize="@dimen/h5"
+        android:background="@drawable/border_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_first_header"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/text_view_second_header"
+        android:layout_width="320dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorBlack"
+        android:text="@string/text_view_second_header_b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/users_list_view_admin" />
+
+    <ListView
+        android:id="@+id/users_list_view_bodyguard"
+        android:layout_width="320dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/border_color"
+        android:textSize="@dimen/h5"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_second_header"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

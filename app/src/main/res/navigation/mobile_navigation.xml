@@ -35,5 +35,4 @@
         android:name="com.example.ticket_machine.ui.accounts.AccountsFragment"
         android:label="@string/menu_accounts"
         tools:layout="@layout/fragment_accounts" />
-
 </navigation>
