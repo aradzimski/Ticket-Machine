@@ -46,12 +46,6 @@
         android:label="@string/menu_scanner"
         tools:layout="@layout/fragment_scanner" />
 
-    <fragment
-        android:id="@+id/nav_tickets"
-        android:name="com.example.ticket_machine.ui.tickets.TicketsFragment"
-        android:label="@string/menu_tickets"
-        tools:layout="@layout/fragment_tickets" />
-
 <!--    <fragment-->
 <!--        android:id="@+id/nav_home_second"-->
 <!--        android:name="com.example.ticket_machine.ui.home.HomeSecondFragment"-->

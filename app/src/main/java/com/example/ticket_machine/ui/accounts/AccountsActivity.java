@@ -77,7 +77,7 @@ public class AccountsActivity extends AppCompatActivity {
                     radioButton = findViewById(radioId);
                     String permission = radioButton.getText().toString();
 
-                    changePermission(mUser.Id,permission);
+                    changePermission(mUser.getId(),permission);
                 }else{
                     Toast.makeText(getApplicationContext(), getString(R.string.toast_there_is_no_user), Toast.LENGTH_LONG).show();
                 }
@@ -113,27 +113,27 @@ public class AccountsActivity extends AppCompatActivity {
                                     JSONObject object = jsonArray.getJSONObject(i);
 
                                     mUser = new User();
-                                    mUser.Id = object.getString("id").trim();
-                                    mUser.Name = object.getString("name").trim();
-                                    mUser.LastName = object.getString("last_name").trim();
-                                    mUser.Email = object.getString("email").trim();
-                                    mUser.Password = object.getString("password").trim();
-                                    mUser.Permission_level = object.getString("permission_level").trim();
+                                    mUser.setId(object.getString("id").trim()) ;
+                                    mUser.setName(object.getString("name").trim());
+                                    mUser.setLastName(object.getString("last_name").trim());
+                                    mUser.setEmail(object.getString("email").trim());
+                                    mUser.setPassword(object.getString("password").trim());
+                                    mUser.setPermission_level(object.getString("permission_level").trim());
 
                                     text_view_user.setText(getString(R.string.set_text_user)
-                                            +getString(R.string.set_text_first_name) + mUser.Name
-                                            +getString(R.string.set_text_last_name) + mUser.LastName
-                                            +getString(R.string.set_text_email) + mUser.Email
+                                            +getString(R.string.set_text_first_name) + mUser.getName()
+                                            +getString(R.string.set_text_last_name) + mUser.getLastName()
+                                            +getString(R.string.set_text_email) + mUser.getEmail()
                                     );
                                     loading.setVisibility(View.GONE);
                                 }
                                 if(mUser != null){
                                     int a=0, b=1, c=2;  // a -> admin, b-> bodyguard, c -> customer
-                                    if(mUser.Permission_level.equals(getString(R.string.role_admin)) ){
+                                    if(mUser.getPermission_level().equals(getString(R.string.role_admin)) ){
                                         radio_group_role.check(radio_group_role.getChildAt(a).getId());
-                                    } else if(mUser.Permission_level.equals(getString(R.string.role_bodyguard))){
+                                    } else if(mUser.getPermission_level().equals(getString(R.string.role_bodyguard))){
                                         radio_group_role.check(radio_group_role.getChildAt(b).getId());
-                                    } else if(mUser.Permission_level.equals(getString(R.string.role_customer))){
+                                    } else if(mUser.getPermission_level().equals(getString(R.string.role_customer))){
                                         radio_group_role.check(radio_group_role.getChildAt(c).getId());
                                     } else {
                                         radio_group_role.clearCheck();
