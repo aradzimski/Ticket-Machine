@@ -82,6 +82,17 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        nav_menu.findItem(R.id.nav_scanner).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Context context = getApplicationContext();
+                Intent intent = new Intent(context, ScannerActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -198,12 +209,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
         finish();
         (this).overridePendingTransition(0, 0); // (0,0) it means no animation on transition
-    }
-
-    private void changeToTicketsActivity() {
-        Context context = getApplicationContext();
-        Intent intent = new Intent(context, TicketsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
     }
 }

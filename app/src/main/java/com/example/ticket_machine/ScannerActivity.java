@@ -13,43 +13,36 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ticket_machine.models.Ticket;
-import com.example.ticket_machine.tools.SharedPreferenceConfig;
-import com.example.ticket_machine.ui.tickets.TicketActivity;
-import com.example.ticket_machine.ui.tickets.TicketFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.ticket_machine.models.Event;
+import com.example.ticket_machine.ui.scanner.ScannerEventsActivity;
+import com.example.ticket_machine.ui.scanner.ScannerFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class TicketsActivity extends AppCompatActivity {
+public class ScannerActivity extends AppCompatActivity {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
-    private SharedPreferenceConfig preferenceConfig;
-    private static String URL_GETUSERTICKETS;
+    private static String URL_GETEVENTS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ticket_list);
+        setContentView(R.layout.activity_scanner_list);
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
@@ -59,21 +52,18 @@ public class TicketsActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        View recyclerView = findViewById(R.id.ticket_list);
+        View recyclerView = findViewById(R.id.scanner_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
     }
 
     private void setupRecyclerView(@NonNull final RecyclerView recyclerView) {
 
-        preferenceConfig = new SharedPreferenceConfig(TicketsActivity.this);
-        final String user_id = preferenceConfig.LoadUserId();
+        URL_GETEVENTS = getString(R.string.URL_EVENTS);
 
-        URL_GETUSERTICKETS = getString(R.string.URL_GETUSERTICKETS);
+        final List<Event> event_list = new ArrayList<>();
 
-        final List<Ticket> ticket_list = new ArrayList<>();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GETUSERTICKETS,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GETEVENTS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -86,74 +76,66 @@ public class TicketsActivity extends AppCompatActivity {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
 
-                                    Ticket ticket = new Ticket();
-                                    ticket.Id = object.getString("id").trim();
-                                    ticket.EventId = object.getString("event_id").trim();
-                                    ticket.UserId = object.getString("user_id").trim();
-                                    ticket.Key = object.getString("key").trim();
-                                    ticket.CreatedOn = object.getString("createdOn").trim();
-                                    ticket.EventName = object.getString("name").trim();
+                                    Event event = new Event();
+                                    event.Id = object.getString("id").trim();
+                                    event.Name = object.getString("name").trim();
+                                    event.Description = object.getString("description").trim();
+                                    event.Price = object.getString("price").trim();
 
-                                    ticket_list.add(ticket);
+                                    event_list.add(event);
                                 }
-                                recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(TicketsActivity.this, ticket_list, mTwoPane));
+                                recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(ScannerActivity.this, event_list, mTwoPane));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(TicketsActivity.this, "Cannot get tickets. Error: " + e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ScannerActivity.this, "Cannot get events. Error: " + e.toString(), Toast.LENGTH_LONG).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(TicketsActivity.this, "Cannot get tickets. Error: " + error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ScannerActivity.this, "Cannot get events. Error: " + error.toString(), Toast.LENGTH_LONG).show();
                     }
                 }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("user_id", user_id);
-                return params;
-            }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(TicketsActivity.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(ScannerActivity.this);
         requestQueue.add(stringRequest);
     }
 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final TicketsActivity mParentActivity;
-        private final List<Ticket> mValues;
+        private final ScannerActivity mParentActivity;
+        private final List<Event> mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Ticket ticket = (Ticket) view.getTag();
+                Event event = (Event) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(TicketFragment.ARG_ITEM_ID, ticket.Id);
-                    TicketFragment fragment = new TicketFragment();
+                    arguments.putString(ScannerFragment.ARG_ITEM_ID, event.Id);
+                    ScannerFragment fragment = new ScannerFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.item_detail_container, fragment)
                             .commit();
                 } else {
                     Context context = view.getContext();
-                    Intent intent = new Intent(context, TicketActivity.class);
-                    intent.putExtra(TicketFragment.ARG_ITEM_ID, ticket.Id);
+                    Intent intent = new Intent(context, ScannerEventsActivity.class);
+                    intent.putExtra(ScannerFragment.ARG_ITEM_ID, event.Id);
 
                     context.startActivity(intent);
                 }
             }
         };
 
-        SimpleItemRecyclerViewAdapter(TicketsActivity parent,
-                                      List<Ticket> ticket_list,
+        SimpleItemRecyclerViewAdapter(ScannerActivity parent,
+                                      List<Event> event_list,
                                       boolean twoPane) {
-            mValues = ticket_list;
+            mValues = event_list;
             mParentActivity = parent;
             mTwoPane = twoPane;
         }
@@ -161,14 +143,14 @@ public class TicketsActivity extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.ticket_list_content, parent, false);
+                    .inflate(R.layout.scanner_list_content, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mIdView.setText(mValues.get(position).Id);
-            holder.mContentView.setText(mValues.get(position).EventName);
+            holder.mContentView.setText(mValues.get(position).Name);
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);

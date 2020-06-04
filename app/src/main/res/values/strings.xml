@@ -9,6 +9,9 @@
     <string name="URL_GETUSER">https://ticketmachine.hostingasp.pl/getUser.php</string>
     <string name="URL_UPDATEUSERPERMISSION">https://ticketmachine.hostingasp.pl/updateUserPermission.php</string>
     <string name="URL_GETPRIVILEGEDUSERS">https://ticketmachine.hostingasp.pl/getPrivilegedUsers.php</string>
+    <string name="URL_GETEVENT">https://ticketmachine.hostingasp.pl/getEvent.php</string>
+    <string name="URL_GETTICKETBYKEY">https://ticketmachine.hostingasp.pl/getTicketByKey.php</string>
+    <string name="URL_UPDATETICKETSTATUS">https://ticketmachine.hostingasp.pl/updateTicketStatus.php</string>
     <!-- /URL -->
 
     <!-- Tools -->
@@ -132,6 +135,8 @@
     <!-- /Accounts activity-->
 
     <!-- Scanner-->
-
+    <string name="btn_text_scan">Scan QR Code</string>
+    <string name="ticket_valid">Ticket valid</string>
+    <string name="ticket_invalid">Invalid ticket</string>
     <!-- /Scanner-->
 </resources>
