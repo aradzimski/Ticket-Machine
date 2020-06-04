@@ -169,6 +169,7 @@ public class ScannerFragment extends Fragment {
 
                 if (qrCodes.size() != 0) {
                     if (!lastScannedKey.equals(qrCodes.valueAt(0).rawValue)) {
+
                         resultText.post(new Runnable() {
                             @Override
                             public void run() {
@@ -192,11 +193,43 @@ public class ScannerFragment extends Fragment {
                                                             if (ticket_status.equals("1") && ticket_eventid.equals(getArguments().getString(ARG_ITEM_ID))) {
                                                                 resultText.setTextColor(ContextCompat.getColor(getContext(), R.color.ticket_valid));
                                                                 resultText.setText(getString(R.string.ticket_valid));
-                                                                Toast.makeText(getContext(), "Ticket valid" + "\n" + "Ticket status: " + ticket_status + "\n" + "Event id: " + getArguments().getString(ARG_ITEM_ID) + "\n" + "Ticket event_id: " + ticket_eventid + "\n" + "Ticket key: " + qrCodes.valueAt(0).displayValue, Toast.LENGTH_LONG).show();
+
+                                                                StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_UPDATETICKETSTATUS,
+                                                                        new Response.Listener<String>() {
+                                                                            @Override
+                                                                            public void onResponse(String response) {
+                                                                                try {
+                                                                                    JSONObject jsonObject = new JSONObject(response);
+                                                                                    String success = jsonObject.getString("success");
+                                                                                    if (success.equals("1")) {
+                                                                                        Toast.makeText(getContext(), "Ticket status has been updated.", Toast.LENGTH_LONG).show();
+                                                                                    }
+                                                                                } catch (JSONException e) {
+                                                                                    e.printStackTrace();
+                                                                                    Toast.makeText(getContext(), "Cannot get ticket. Error: " + e.toString(), Toast.LENGTH_LONG).show();
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        new Response.ErrorListener() {
+                                                                            @Override
+                                                                            public void onErrorResponse(VolleyError error) {
+                                                                                Toast.makeText(getContext(), "Cannot get ticket. Error: " + error.toString(), Toast.LENGTH_LONG).show();
+                                                                            }
+                                                                        }) {
+                                                                    @Override
+                                                                    protected Map<String, String> getParams() throws AuthFailureError {
+                                                                        Map<String, String> params = new HashMap<>();
+                                                                        params.put("key", qrCodes.valueAt(0).rawValue);
+                                                                        return params;
+                                                                    }
+                                                                };
+
+                                                                RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+                                                                requestQueue.add(stringRequest);
+
                                                             } else {
                                                                 resultText.setTextColor(ContextCompat.getColor(getContext(), R.color.ticket_invalid));
                                                                 resultText.setText(getString(R.string.ticket_invalid));
-                                                                Toast.makeText(getContext(), "Ticket invalid" + "\n" + "Ticket status: " + ticket_status + "\n" + "Event id: " + getArguments().getString(ARG_ITEM_ID) + "\n" + "Ticket event_id: " + ticket_eventid + "\n" + "Ticket key: " + qrCodes.valueAt(0).displayValue, Toast.LENGTH_LONG).show();
                                                             }
                                                         }
                                                     }
