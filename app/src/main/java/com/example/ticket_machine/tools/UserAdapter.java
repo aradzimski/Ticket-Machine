@@ -18,26 +18,39 @@ import com.example.ticket_machine.models.User;
 import java.util.ArrayList;
 import java.util.List;
 
-// ArrayAdapter class allows operation only on the string ArrayList,
-// so we extends the following class for use on list of user objects
+/**
+ * ArrayAdapter class allows operation only on the string ArrayList,
+ * so we extends the following class for use on list of user objects
+ */
 public class UserAdapter extends ArrayAdapter<User> {
     private Context mContext;
-    private List<User> usersList = new ArrayList<>();
+    private List<User> usersList;
 
+    /**
+     * Class constructor in which we give basic information when creating an object
+     * @param context
+     * @param list
+     */
     public UserAdapter(@NonNull Context context, @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<User> list) {
         super(context, 0 , list);
         mContext = context;
         usersList = list;
     }
 
-    // Below method allow as to create an item of list view which will have Name, LastName and Email
-    // Inside method we are getting TextView elements from list_item resources and fill them with data from specific users
+    /**
+     * Below method allow as to create an item of list view which will have Name, LastName and Email
+     * Inside method we are getting TextView elements from list_item resources and fill them with data from specific users
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if(listItem == null)
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item,parent,false);
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.accounts_list_item,parent,false);
 
         User currentUser = usersList.get(position);
 
