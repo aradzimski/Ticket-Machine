@@ -36,8 +36,8 @@
     <!-- /Settings -->
 
     <!-- Error -->
-    <string name="response_catch_error">Error occured. Try again. Catch Error: </string>
-    <string name="response_listener_error">Error occured. Try again. Listener Error:</string>
+    <string name="response_catch_error">Error occurred. Try again. Catch Error: </string>
+    <string name="response_listener_error">Error occurred. Try again. Listener Error:</string>
     <string name="error_field_empty">Field can not be empty!</string>
     <string name="error_not_valid_2_25">Please enter a valid text, between 2 and 25 characters!</string>
     <string name="error_not_valid_5_50">Please enter a valid text, between 5 and 50 characters!</string>
@@ -69,6 +69,9 @@
     <string name="menu_accounts">Accounts</string>
     <string name="menu_scanner">Scanner</string>
     <string name="menu_events_manage">Manage Parties</string>
+    <string name="menu_communicate">Communicate</string>
+    <string name="menu_contact">Contact</string>
+    <string name="menu_share">Share</string>
     <!--/Navigation-->
 
     <!--Home-->
