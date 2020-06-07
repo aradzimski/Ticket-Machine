@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ticket_machine.models.Event;
+import com.example.ticket_machine.tools.JsonParser;
 import com.example.ticket_machine.ui.scanner.ScannerEventsActivity;
 import com.example.ticket_machine.ui.scanner.ScannerFragment;
 
@@ -33,16 +34,19 @@ import java.util.List;
 public class ScannerActivity extends AppCompatActivity {
 
     /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
+     * The following class is based on Master-Detail Flow scheme.
+     * It is used to generate events list with listeners, which will pass clicked event ID to the details view.
      */
     private boolean mTwoPane;
     private static String URL_GETEVENTS;
+    private JsonParser jsonParser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner_list);
+
+        jsonParser = new JsonParser();
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
@@ -76,11 +80,7 @@ public class ScannerActivity extends AppCompatActivity {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
 
-                                    Event event = new Event();
-                                    event.Id = object.getString("id").trim();
-                                    event.Name = object.getString("name").trim();
-                                    event.Description = object.getString("description").trim();
-                                    event.Price = object.getString("price").trim();
+                                    Event event = JsonParser.getEvent(object);
 
                                     event_list.add(event);
                                 }
@@ -115,6 +115,9 @@ public class ScannerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Event event = (Event) view.getTag();
                 if (mTwoPane) {
+                    /**
+                     * Passing event ID, which was chosen from the list, as arguments bundle.
+                     */
                     Bundle arguments = new Bundle();
                     arguments.putString(ScannerFragment.ARG_ITEM_ID, event.Id);
                     ScannerFragment fragment = new ScannerFragment();
@@ -125,6 +128,9 @@ public class ScannerActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ScannerEventsActivity.class);
+                    /**
+                     * Passing event ID, which was chosen from the list, to intent.
+                     */
                     intent.putExtra(ScannerFragment.ARG_ITEM_ID, event.Id);
 
                     context.startActivity(intent);
