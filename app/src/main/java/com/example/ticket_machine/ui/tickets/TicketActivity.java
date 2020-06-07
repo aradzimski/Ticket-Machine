@@ -2,15 +2,14 @@ package com.example.ticket_machine.ui.tickets;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.example.ticket_machine.R;
 import com.example.ticket_machine.TicketsActivity;
-
-import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.MenuItem;
+
+/**
+ * The following class is used to retrieve arguments from TicketsActivity and pass them to TicketFragment.
+ */
 
 public class TicketActivity extends AppCompatActivity {
 

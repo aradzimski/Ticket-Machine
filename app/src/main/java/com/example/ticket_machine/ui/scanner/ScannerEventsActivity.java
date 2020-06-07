@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.ticket_machine.R;
 import com.example.ticket_machine.ScannerActivity;
 
+/**
+ * The following class is used to retrieve arguments from ScannerActivity and pass them to ScannerFragment.
+ */
+
 public class ScannerEventsActivity extends AppCompatActivity {
 
     @Override

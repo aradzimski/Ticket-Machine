@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ticket_machine.R;
 import com.example.ticket_machine.models.Event;
+import com.example.ticket_machine.tools.JsonParser;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -38,6 +39,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The following class is used to handle camera, QR codes scanning, retrieving and updating tickets in the database.
+ * This fragment retrieves event ID from ScannerEventsActivity. It is used to verify if ticket that was scanned belongs to proper event.
+ */
+
 public class ScannerFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
@@ -46,6 +52,7 @@ public class ScannerFragment extends Fragment {
     private static String URL_UPDATETICKETSTATUS;
     private String lastScannedKey;
     private Event mItem;
+    private JsonParser jsonParser;
     private SurfaceView surfaceView;
     private CameraSource cameraSource;
     private TextView resultText;
@@ -68,15 +75,23 @@ public class ScannerFragment extends Fragment {
         URL_GETEVENT = getString(R.string.URL_GETEVENT);
         URL_UPDATETICKETSTATUS = getString(R.string.URL_UPDATETICKETSTATUS);
 
+        jsonParser = new JsonParser();
+
         surfaceView = (SurfaceView) rootView.findViewById(R.id.camera_preview);
         resultText = (TextView) rootView.findViewById(R.id.scan_result);
 
+        /**
+         * Check if application is permitted to use the camera. If not, then request this permission from user.
+         */
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA},
                     50);
         }
 
+        /**
+         * Prepare BarcodeDetector and Camera for scanning.
+         */
         barcodeDetector = new BarcodeDetector.Builder(getContext())
                 .setBarcodeFormats(Barcode.QR_CODE).build();
         cameraSource = new CameraSource.Builder(getContext(), barcodeDetector)
@@ -84,6 +99,9 @@ public class ScannerFragment extends Fragment {
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
 
+            /**
+             * Retrieve chosen event data
+             */
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GETEVENT,
                     new Response.Listener<String>() {
                         @Override
@@ -97,11 +115,7 @@ public class ScannerFragment extends Fragment {
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject object = jsonArray.getJSONObject(i);
 
-                                        mItem = new Event();
-                                        mItem.Id = object.getString("id").trim();
-                                        mItem.Name = object.getString("name").trim();
-                                        mItem.Description = object.getString("description").trim();
-                                        mItem.Price = object.getString("price").trim();
+                                        mItem = JsonParser.getEvent(object);
 
                                         if (mItem != null) {
                                             ((TextView) rootView.findViewById(R.id.scanner_detail)).setText(mItem.Name);
@@ -132,6 +146,9 @@ public class ScannerFragment extends Fragment {
             requestQueue.add(stringRequest);
         }
 
+        /**
+         * Prepare variable which will contain last scanned ticket. If user keeps scanning the same ticket, it is unnecessary to handle it.
+         */
         lastScannedKey = "";
 
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
@@ -163,11 +180,18 @@ public class ScannerFragment extends Fragment {
             public void release() {
             }
 
+            /**
+             * This method handles the data obtained from the Camera and BarcodeScanner
+             */
             @Override
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> qrCodes = detections.getDetectedItems();
 
                 if (qrCodes.size() != 0) {
+
+                    /**
+                     * If the key is the same as the last time, we can ignore it.
+                     */
                     if (!lastScannedKey.equals(qrCodes.valueAt(0).rawValue)) {
 
                         resultText.post(new Runnable() {
@@ -190,6 +214,9 @@ public class ScannerFragment extends Fragment {
                                                             String ticket_status = object.getString("active").trim();
                                                             String ticket_eventid = object.getString("event_id").trim();
 
+                                                            /**
+                                                             * If ticket is valid, active and belongs to chosen event - show green text at the bottom of the view and prepare next request to update its status to 'not active'.
+                                                             */
                                                             if (ticket_status.equals("1") && ticket_eventid.equals(getArguments().getString(ARG_ITEM_ID))) {
                                                                 resultText.setTextColor(ContextCompat.getColor(getContext(), R.color.ticket_valid));
                                                                 resultText.setText(getString(R.string.ticket_valid));
@@ -227,6 +254,9 @@ public class ScannerFragment extends Fragment {
                                                                 RequestQueue requestQueue = Volley.newRequestQueue(getContext());
                                                                 requestQueue.add(stringRequest);
 
+                                                                /**
+                                                                 * If ticket is invalid - show red text at the bottom of the view
+                                                                 */
                                                             } else {
                                                                 resultText.setTextColor(ContextCompat.getColor(getContext(), R.color.ticket_invalid));
                                                                 resultText.setText(getString(R.string.ticket_invalid));
@@ -255,6 +285,10 @@ public class ScannerFragment extends Fragment {
 
                                 RequestQueue requestQueue = Volley.newRequestQueue(getContext());
                                 requestQueue.add(stringRequest);
+
+                                /**
+                                 * Store this ticket key in variable, to ignore this ticket next time.
+                                 */
                                 lastScannedKey = qrCodes.valueAt(0).rawValue;
                             }
                         });
