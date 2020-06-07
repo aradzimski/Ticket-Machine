@@ -14,6 +14,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ticket_machine.R;
 import com.example.ticket_machine.models.Ticket;
+import com.example.ticket_machine.tools.JsonParser;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -45,6 +46,7 @@ public class TicketFragment extends Fragment {
     private static String URL_GETTICKET;
     private Ticket mItem;
     private ImageView qrImage;
+    private JsonParser jsonParser;
 
     public TicketFragment() {
     }
@@ -58,6 +60,8 @@ public class TicketFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.ticket_detail, container, false);
+
+        jsonParser = new JsonParser();
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
 
@@ -80,13 +84,7 @@ public class TicketFragment extends Fragment {
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject object = jsonArray.getJSONObject(i);
 
-                                        mItem = new Ticket();
-                                        mItem.Id = object.getString("id").trim();
-                                        mItem.EventId = object.getString("event_id").trim();
-                                        mItem.UserId = object.getString("user_id").trim();
-                                        mItem.Key = object.getString("key").trim();
-                                        mItem.CreatedOn = object.getString("createdOn").trim();
-                                        mItem.EventName = object.getString("name").trim();
+                                        mItem = JsonParser.getTicket(object);
 
                                         if (mItem != null) {
                                             /**
