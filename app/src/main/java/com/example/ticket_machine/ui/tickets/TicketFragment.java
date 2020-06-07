@@ -92,8 +92,6 @@ public class TicketFragment extends Fragment {
                                              */
                                             ((ImageView) rootView.findViewById(R.id.ticket_detail)).setImageBitmap(GenerateQRCode(mItem.Key));
                                         }
-
-                                        Activity activity = getActivity();
                                     }
                                 }
                             } catch (JSONException | WriterException e){
