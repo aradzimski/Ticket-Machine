@@ -33,8 +33,8 @@ import java.util.List;
 public class ScannerActivity extends AppCompatActivity {
 
     /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
+     * The following class is based on Master-Detail Flow scheme.
+     * It is used to generate events list with listeners, which will pass clicked event ID to the details view.
      */
     private boolean mTwoPane;
     private static String URL_GETEVENTS;
@@ -115,6 +115,9 @@ public class ScannerActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Event event = (Event) view.getTag();
                 if (mTwoPane) {
+                    /**
+                     * Passing event ID, which was chosen from the list, as arguments bundle.
+                     */
                     Bundle arguments = new Bundle();
                     arguments.putString(ScannerFragment.ARG_ITEM_ID, event.Id);
                     ScannerFragment fragment = new ScannerFragment();
@@ -125,6 +128,9 @@ public class ScannerActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ScannerEventsActivity.class);
+                    /**
+                     * Passing event ID, which was chosen from the list, to intent.
+                     */
                     intent.putExtra(ScannerFragment.ARG_ITEM_ID, event.Id);
 
                     context.startActivity(intent);
