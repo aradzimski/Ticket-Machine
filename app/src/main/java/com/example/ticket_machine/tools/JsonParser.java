@@ -25,7 +25,6 @@ public final class JsonParser {
         Event result = new Event();
 
         result.Id = object.getString("id").trim();
-        result.Id = object.getString("id").trim();
         result.Name = object.getString("name").trim();
         result.Description = object.getString("description").trim();
         result.Price = object.getString("price").trim();
