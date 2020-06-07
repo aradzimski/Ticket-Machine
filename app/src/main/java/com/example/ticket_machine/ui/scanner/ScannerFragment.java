@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ticket_machine.R;
 import com.example.ticket_machine.models.Event;
+import com.example.ticket_machine.tools.JsonParser;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -51,6 +52,7 @@ public class ScannerFragment extends Fragment {
     private static String URL_UPDATETICKETSTATUS;
     private String lastScannedKey;
     private Event mItem;
+    private JsonParser jsonParser;
     private SurfaceView surfaceView;
     private CameraSource cameraSource;
     private TextView resultText;
@@ -72,6 +74,8 @@ public class ScannerFragment extends Fragment {
         URL_GETTICKETBYKEY = getString(R.string.URL_GETTICKETBYKEY);
         URL_GETEVENT = getString(R.string.URL_GETEVENT);
         URL_UPDATETICKETSTATUS = getString(R.string.URL_UPDATETICKETSTATUS);
+
+        jsonParser = new JsonParser();
 
         surfaceView = (SurfaceView) rootView.findViewById(R.id.camera_preview);
         resultText = (TextView) rootView.findViewById(R.id.scan_result);
@@ -111,11 +115,7 @@ public class ScannerFragment extends Fragment {
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         JSONObject object = jsonArray.getJSONObject(i);
 
-                                        mItem = new Event();
-                                        mItem.Id = object.getString("id").trim();
-                                        mItem.Name = object.getString("name").trim();
-                                        mItem.Description = object.getString("description").trim();
-                                        mItem.Price = object.getString("price").trim();
+                                        mItem = JsonParser.getEvent(object);
 
                                         if (mItem != null) {
                                             ((TextView) rootView.findViewById(R.id.scanner_detail)).setText(mItem.Name);

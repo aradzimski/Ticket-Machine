@@ -106,19 +106,9 @@ public class EventsFragment extends Fragment {
                                     eventTitle.setTextColor(Color.WHITE);
                                     eventTitle.setTextSize(14);
                                     eventTitle.setGravity(Gravity.FILL_VERTICAL);
-                                    eventTitle.setPadding(10,10,10,10);
+                                    eventTitle.setPadding(10,10,300,10);
 
                                     eventRow.addView(eventTitle);
-
-                                    TextView eventDescription = new TextView(getContext());
-                                    eventDescription.setId(Integer.parseInt(id));
-                                    eventDescription.setText(description);
-                                    eventDescription.setTextColor(Color.WHITE);
-                                    eventDescription.setTextSize(12);
-                                    eventDescription.setGravity(Gravity.FILL_VERTICAL);
-                                    eventDescription.setPadding(10,10,10,10);
-
-                                    eventRow.addView(eventDescription);
 
                                     TextView eventPrice = new TextView(getContext());
                                     eventPrice.setId(Integer.parseInt(id));

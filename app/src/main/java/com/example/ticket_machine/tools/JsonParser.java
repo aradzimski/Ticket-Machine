@@ -1,5 +1,6 @@
 package com.example.ticket_machine.tools;
 
+import com.example.ticket_machine.models.Event;
 import com.example.ticket_machine.models.Ticket;
 
 import org.json.JSONException;
@@ -16,6 +17,18 @@ public final class JsonParser {
         result.Key = object.getString("key").trim();
         result.CreatedOn = object.getString("createdOn").trim();
         result.EventName = object.getString("name").trim();
+
+        return result;
+    }
+
+    public static Event getEvent(JSONObject object) throws JSONException {
+        Event result = new Event();
+
+        result.Id = object.getString("id").trim();
+        result.Id = object.getString("id").trim();
+        result.Name = object.getString("name").trim();
+        result.Description = object.getString("description").trim();
+        result.Price = object.getString("price").trim();
 
         return result;
     }

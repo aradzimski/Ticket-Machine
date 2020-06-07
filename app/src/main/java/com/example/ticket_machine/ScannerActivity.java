@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ticket_machine.models.Event;
+import com.example.ticket_machine.tools.JsonParser;
 import com.example.ticket_machine.ui.scanner.ScannerEventsActivity;
 import com.example.ticket_machine.ui.scanner.ScannerFragment;
 
@@ -38,11 +39,14 @@ public class ScannerActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
     private static String URL_GETEVENTS;
+    private JsonParser jsonParser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner_list);
+
+        jsonParser = new JsonParser();
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
@@ -76,11 +80,7 @@ public class ScannerActivity extends AppCompatActivity {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
 
-                                    Event event = new Event();
-                                    event.Id = object.getString("id").trim();
-                                    event.Name = object.getString("name").trim();
-                                    event.Description = object.getString("description").trim();
-                                    event.Price = object.getString("price").trim();
+                                    Event event = JsonParser.getEvent(object);
 
                                     event_list.add(event);
                                 }
