@@ -142,14 +142,14 @@ public class EventsFragment extends Fragment {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(getContext(), "Events List Error" + e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), getString(R.string.response_catch_error) + e.toString(), Toast.LENGTH_LONG).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "Events List Error" + error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), getString(R.string.response_listener_error) + error.toString(), Toast.LENGTH_LONG).show();
                     }
                 }) {
         };

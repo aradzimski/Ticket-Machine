@@ -1,7 +1,4 @@
 package com.example.ticket_machine.ui.accounts;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -12,7 +9,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,13 +18,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ticket_machine.R;
-import com.example.ticket_machine.models.Ticket;
 import com.example.ticket_machine.models.User;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,7 +79,9 @@ public class AccountsActivity extends AppCompatActivity {
         });
     }
 
-    // This is a method to show message with information about what radio button is selected.
+    /**
+     * This is a method to show message with information about what radio button is selected.
+     */
     public void checkButton(View v) {
         int radioId = radio_group_role.getCheckedRadioButtonId();
         radioButton = findViewById(radioId);
@@ -93,9 +89,12 @@ public class AccountsActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    // This method was created to find users by email address, we are searching user for change their permission level.
-    // Method communicates with an external api which connects to the database and provides relevant information.
-    // Method require email parameter.
+    /**
+     * This method was created to find users by email address, we are searching user for change their permission level.
+     * Method communicates with an external api which connects to the database and provides relevant information.
+     * Method require email parameter.
+     * @param email
+     */
     private void search(final String email) {
         loading.setVisibility(View.VISIBLE);
 
@@ -171,7 +170,10 @@ public class AccountsActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    // Method is used for check that structure of provided email address is correct.
+    /**
+     * Method is used for check that structure of provided email address is correct.
+     * @return
+     */
     private boolean validateEmail() {
         String email_input = email.getText().toString().trim();
         if (email_input.isEmpty()) {
@@ -193,7 +195,7 @@ public class AccountsActivity extends AppCompatActivity {
      * @param id
      * @param permission
      */
-    //
+
     private void changePermission(final String id, final String permission) {
         loading.setVisibility(View.VISIBLE);
 

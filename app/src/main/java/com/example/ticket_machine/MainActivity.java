@@ -2,19 +2,21 @@ package com.example.ticket_machine;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
-import com.example.ticket_machine.tools.SharedPreferenceConfig;
-import com.google.android.material.navigation.NavigationView;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
+import com.example.ticket_machine.tools.SharedPreferenceConfig;
+import com.google.android.material.navigation.NavigationView;
 
 /**
  * This is the main class of the application, a navigation menu is implemented here.
@@ -204,6 +206,6 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
-        (this).overridePendingTransition(0, 0); // (0,0) it means no animation on transition
+        (this).overridePendingTransition(0, 0);
     }
 }

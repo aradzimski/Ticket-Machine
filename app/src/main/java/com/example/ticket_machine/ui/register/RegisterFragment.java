@@ -7,7 +7,6 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -38,6 +36,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * The following class is used to register user to the system.
+ * AccountsFragment class extends the Fragment class.
+ */
 public class RegisterFragment extends Fragment {
     private RegisterViewModel registerViewModel;
     private EditText name, last_name, email, password, c_password;
@@ -97,6 +99,11 @@ public class RegisterFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Method which is used to register the user, method connect to the external Api.
+     * @param email
+     * @param password
+     */
     private void Regist(final String name, final String last_name, final String email, final String password){
         loading.setVisibility(View.VISIBLE);
         btn_regist.setVisibility(View.GONE);
@@ -155,10 +162,13 @@ public class RegisterFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
+    /**
+     * The task of this method is to transfer us to another activity.
+     */
     private void moveToNewActivity () {
         Intent i = new Intent(getActivity(), MainActivity.class);
         startActivity(i);
-        ((Activity) getActivity()).overridePendingTransition(0, 0); // (0,0) it means no animation on transition
+        ((Activity) getActivity()).overridePendingTransition(0, 0);
     }
 
     private boolean validateEmail() {
@@ -232,6 +242,11 @@ public class RegisterFragment extends Fragment {
         }
     }
 
+    /**
+     * Method is used for check that structure of provided user fields are all correct. If all of them are correct,
+     * procedure Regist will by launched. Otherwise, error messages will be displayed next to the input fields.
+     * @return
+     */
     private void confirmInputAndRegister(View v) {
         if (!validateName() | !validateLastName() | !validateEmail() | !validatePassword() | !validateConfirmPassword()) {
             return;

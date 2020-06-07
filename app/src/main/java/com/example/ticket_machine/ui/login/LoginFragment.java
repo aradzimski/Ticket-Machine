@@ -1,10 +1,4 @@
 package com.example.ticket_machine.ui.login;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +11,13 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,13 +28,19 @@ import com.android.volley.toolbox.Volley;
 import com.example.ticket_machine.MainActivity;
 import com.example.ticket_machine.R;
 import com.example.ticket_machine.tools.SharedPreferenceConfig;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * The following class is used to login user to the system.
+ * AccountsFragment class extends the Fragment class.
+ */
 public class LoginFragment extends Fragment {
     private SharedPreferenceConfig preferenceConfig;
 
@@ -82,6 +89,11 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Method which is used to login the user, method connect to the external Api.
+     * @param email
+     * @param password
+     */
     private void Login(final String email, final String password) {
         loading.setVisibility(View.VISIBLE);
         btn_login.setVisibility(View.GONE);
@@ -104,7 +116,7 @@ public class LoginFragment extends Fragment {
                                     String name = object.getString("name").trim();
                                     String email = object.getString("email").trim();
                                     String role = object.getString("permission_level");
-                                    preferenceConfig.SaveUserRole(role); // Save user role/permission_level
+                                    preferenceConfig.SaveUserRole(role);
                                     preferenceConfig.SaveUserId(id);
 
                                     Toast.makeText(getContext(),
@@ -154,10 +166,14 @@ public class LoginFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
+    /**
+     * The task of this method is to transfer us to another activity.
+     *
+     */
     private void moveToNewActivity () {
         Intent i = new Intent(getActivity(), MainActivity.class);
         startActivity(i);
-        ((Activity) getActivity()).overridePendingTransition(0, 0); // (0,0) it means no animation on transition
+        ((Activity) getActivity()).overridePendingTransition(0, 0);
     }
 
     private boolean validateEmail() {
@@ -188,6 +204,11 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    /**
+     * Method is used for check that structure of provided login fields are all correct. If all of them are correct,
+     * procedure Regist will by launched. Otherwise, error messages will be displayed next to the input fields.
+     * @return
+     */
     private void confirmInputAndLogin(View v) {
         if (!validateEmail() | !validatePassword()) {
             return;
