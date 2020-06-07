@@ -34,6 +34,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The following class is used to get ticket key from the database and show to as a QR Code.
+ * This fragment retrieves ticket ID from TicketActivity.
+ */
+
 public class TicketFragment extends Fragment {
 
     public static final String ARG_ITEM_ID = "item_id";
@@ -58,6 +63,10 @@ public class TicketFragment extends Fragment {
 
             URL_GETTICKET = getString(R.string.URL_GETTICKET);
 
+            /**
+             * Retrieve data about ticket and related event.
+             */
+
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GETTICKET,
                     new Response.Listener<String>() {
                         @Override
@@ -80,6 +89,9 @@ public class TicketFragment extends Fragment {
                                         mItem.EventName = object.getString("name").trim();
 
                                         if (mItem != null) {
+                                            /**
+                                             * If ticket is valid, set a bitmap with QR Code.
+                                             */
                                             ((ImageView) rootView.findViewById(R.id.ticket_detail)).setImageBitmap(GenerateQRCode(mItem.Key));
                                         }
 
@@ -114,14 +126,23 @@ public class TicketFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * This method is used to generate a bitmap with QR Code, based on a ticket key.
+     */
     public Bitmap GenerateQRCode(String key) throws WriterException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
 
             int dimensions = 800;
 
+            /**
+            * Encode ticket key as QR Code to the matrix.
+            */
             BitMatrix bitMatrix = qrCodeWriter.encode(key, BarcodeFormat.QR_CODE, dimensions, dimensions);
             Bitmap bitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.RGB_565);
 
+            /**
+            * Iterate through the matrix to draw the bitmap, basing on values in each cell.
+            */
             for (int x = 0; x < dimensions; x++)
             {
                 for (int y = 0; y < dimensions; y++)
