@@ -1,24 +1,12 @@
 package com.example.ticket_machine;
-
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
-
 import com.example.ticket_machine.tools.SharedPreferenceConfig;
-import com.example.ticket_machine.ui.home.HomeFragment;
-import com.example.ticket_machine.ui.tickets.TicketActivity;
-import com.example.ticket_machine.ui.tickets.TicketFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -28,6 +16,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+/**
+ * This is the main class of the application, a navigation menu is implemented here.
+ * MainActivity class extends the AppCompatActivity class.
+ */
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private SharedPreferenceConfig preferenceConfig;
@@ -46,17 +38,23 @@ public class MainActivity extends AppCompatActivity {
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
-        // Get role name from resources.
+        /**
+         * Get role name from resources.
+         */
         role_none = getResources().getString(R.string.role_none);
         role_customer = getResources().getString(R.string.role_customer);
         role_bodyguard = getResources().getString(R.string.role_bodyguard);
         role_admin = getResources().getString(R.string.role_admin);
 
-        // Show proper item in navigation menu, depends on user permissions level.
+        /**
+         * Show proper item in navigation menu, depends on user permissions level.
+         */
         showedMenuItem();
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        /**
+         * Passing each menu ID as a set of Ids because each
+         * menu should be considered as top level destinations.
+         */
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
                 R.id.nav_register,
@@ -64,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_events,
                 R.id.nav_tickets,
                 R.id.nav_accounts,
-                R.id.nav_scanner)
+                R.id.nav_scanner,
+                R.id.nav_events_manage)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -95,10 +94,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method is implemented because we want show proper elements in navigation menu when user come back to main activity.
+     * For that we use showedMenuItem() method which show proper item in navigation menu, depends on user permissions level.
+     */
     @Override
     protected void onResume() {
         super.onResume();
-        // Show proper item in navigation menu, depends on user permissions level.
         showedMenuItem();
     }
 
@@ -137,8 +139,11 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    //  To show base element from navigation menu before login to app !
+    /**
+     * To show only base element from navigation menu before login to app !
+     */
     private void itemBeforeLogin(Menu nav) {
+        nav.findItem(R.id.nav_events_manage).setVisible(false);
         nav.findItem(R.id.nav_scanner).setVisible(false);
         nav.findItem(R.id.nav_accounts).setVisible(false);
         nav.findItem(R.id.nav_tickets).setVisible(false);
@@ -147,12 +152,27 @@ public class MainActivity extends AppCompatActivity {
         nav.findItem(R.id.nav_login).setVisible(true);
     }
 
-    // To hide base element from navigation menu after login to app !
+    /**
+     * To hide all element from navigation menu after login to app,
+     * in another method we set the specific navigation item depend on permission level.
+     * @param nav
+     */
     private void itemAfterLogin(Menu nav){
         nav.findItem(R.id.nav_register).setVisible(false);
         nav.findItem(R.id.nav_login).setVisible(false);
+
+        nav.findItem(R.id.nav_events_manage).setVisible(false);
+        nav.findItem(R.id.nav_scanner).setVisible(false);
+        nav.findItem(R.id.nav_accounts).setVisible(false);
+        nav.findItem(R.id.nav_tickets).setVisible(false);
+        nav.findItem(R.id.nav_events).setVisible(false);
+
     }
 
+    /**
+     * This method determines which element from navigation menu will by shown for specific user,
+     * of course it depends on user permission level.
+     */
     public void showedMenuItem(){
         String permission_level = preferenceConfig.LoadUserRole();
         Menu nav_Menu = navigationView.getMenu();
@@ -161,49 +181,25 @@ public class MainActivity extends AppCompatActivity {
             itemAfterLogin(nav_Menu);
             nav_Menu.findItem(R.id.nav_tickets).setVisible(true);
             nav_Menu.findItem(R.id.nav_events).setVisible(true);
-            nav_Menu.findItem(R.id.nav_scanner).setVisible(false);
-            nav_Menu.findItem(R.id.nav_accounts).setVisible(false);
-            //Toast.makeText(getApplicationContext()," Role: " + preferenceConfig.LoadUserRole(), Toast.LENGTH_LONG).show();
         }else if(permission_level.equals(role_bodyguard)){
             itemAfterLogin(nav_Menu);
             nav_Menu.findItem(R.id.nav_scanner).setVisible(true);
-            nav_Menu.findItem(R.id.nav_events).setVisible(true);
-            nav_Menu.findItem(R.id.nav_tickets).setVisible(false);
         }else if(permission_level.equals(role_admin)){
             itemAfterLogin(nav_Menu);
+            nav_Menu.findItem(R.id.nav_events_manage).setVisible(true);
             nav_Menu.findItem(R.id.nav_scanner).setVisible(true);
             nav_Menu.findItem(R.id.nav_accounts).setVisible(true);
             nav_Menu.findItem(R.id.nav_tickets).setVisible(true);
-            nav_Menu.findItem(R.id.nav_events).setVisible(false);
+            nav_Menu.findItem(R.id.nav_events).setVisible(true);
         }else{
             itemBeforeLogin(nav_Menu);
         }
-        /* Switch looks better but you can't use it because "case" requires constant variables,
-        *  we can not get them from resources.
-        * *
-        switch(permission_level){
-            case "customer":
-                itemAfterLogin(nav_Menu);
-                nav_Menu.findItem(R.id.nav_tickets).setVisible(true);
-                nav_Menu.findItem(R.id.nav_events).setVisible(true);
-                Toast.makeText(getApplicationContext(),"Preference: "+preferenceConfig.LoadLoginStatus() + " Role: " + preferenceConfig.LoadUserRole(), Toast.LENGTH_LONG).show();
-                break;
-            case "bodyguard":
-                itemAfterLogin(nav_Menu);
-                nav_Menu.findItem(R.id.nav_tickets).setVisible(false);
-                nav_Menu.findItem(R.id.nav_events).setVisible(true);
-                break;
-            case "admin":
-                itemAfterLogin(nav_Menu);
-                nav_Menu.findItem(R.id.nav_tickets).setVisible(true);
-                nav_Menu.findItem(R.id.nav_events).setVisible(false);
-                break;
-            default:
-                itemBeforeLogin(nav_Menu);
-        }
-        */
     }
 
+    /**
+     * The task of this method is to transfer us to another activity and finish the old activity.
+     * In this case it is used when user use logout operation.
+     */
     private void moveToNewActivity () {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);

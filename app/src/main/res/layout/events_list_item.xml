@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/text_view_name_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:textSize="@dimen/h4"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/text_view_description_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/text_view_name_event"
+        android:layout_margin="10dp"
+        android:textSize="@dimen/h6"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/text_view_price_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/text_view_description_event"
+        android:layout_margin="10dp"
+        android:textSize="@dimen/h6"/>
+
+    <TextView
+        android:id="@+id/text_view_date_of_start_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/text_view_price_event"
+        android:layout_margin="10dp"
+        android:textSize="@dimen/h6"/>
+
+    <TextView
+        android:id="@+id/text_view_date_of_end_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/text_view_date_of_start_event"
+        android:layout_margin="10dp"
+        android:textSize="@dimen/h6"/>
+
+    <Button
+        android:id="@+id/btn_delete_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/text_view_date_of_end_event"
+        android:text="@string/btn_text_delete"/>
+
+</RelativeLayout>

@@ -186,9 +186,14 @@ public class AccountsActivity extends AppCompatActivity {
         }
     }
 
-    // This method was created to change user permission level.
-    // Method communicates with an external api which connects to the database and update the searched user.
-    // Method require id and permission parameter.
+    /**
+     * This method was created to change user permission level.
+     * Method communicates with an external api which connects to the database and update the searched user.
+     * Method require id and permission parameter.
+     * @param id
+     * @param permission
+     */
+    //
     private void changePermission(final String id, final String permission) {
         loading.setVisibility(View.VISIBLE);
 
