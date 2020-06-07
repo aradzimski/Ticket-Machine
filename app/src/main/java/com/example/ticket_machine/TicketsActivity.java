@@ -24,8 +24,6 @@ import com.example.ticket_machine.models.Ticket;
 import com.example.ticket_machine.tools.SharedPreferenceConfig;
 import com.example.ticket_machine.ui.tickets.TicketActivity;
 import com.example.ticket_machine.ui.tickets.TicketFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,8 +37,8 @@ import java.util.Map;
 public class TicketsActivity extends AppCompatActivity {
 
     /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
+     * The following class is based on Master-Detail Flow scheme.
+     * It is used to generate ticket list with listeners, which will pass clicked ticket ID to the details view.
      */
     private boolean mTwoPane;
     private SharedPreferenceConfig preferenceConfig;
