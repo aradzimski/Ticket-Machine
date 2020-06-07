@@ -12,6 +12,8 @@
     <string name="URL_GETEVENT">https://ticketmachine.hostingasp.pl/getEvent.php</string>
     <string name="URL_GETTICKETBYKEY">https://ticketmachine.hostingasp.pl/getTicketByKey.php</string>
     <string name="URL_UPDATETICKETSTATUS">https://ticketmachine.hostingasp.pl/updateTicketStatus.php</string>
+    <string name="URL_DELETEEVENT">https://ticketmachine.hostingasp.pl/deleteEvent.php</string>
+    <string name="URL_ADDEVENT">https://ticketmachine.hostingasp.pl/addEvent.php</string>
     <!-- /URL -->
 
     <!-- Tools -->
@@ -36,6 +38,10 @@
     <!-- Error -->
     <string name="response_catch_error">Error occured. Try again. Catch Error: </string>
     <string name="response_listener_error">Error occured. Try again. Listener Error:</string>
+    <string name="error_field_empty">Field can not be empty!</string>
+    <string name="error_not_valid_2_25">Please enter a valid text, between 2 and 25 characters!</string>
+    <string name="error_not_valid_5_50">Please enter a valid text, between 5 and 50 characters!</string>
+
     <!-- /Error -->
 
     <!-- APP -->
@@ -62,6 +68,7 @@
     <string name="menu_login">Login</string>
     <string name="menu_accounts">Accounts</string>
     <string name="menu_scanner">Scanner</string>
+    <string name="menu_events_manage">Manage Parties</string>
     <!--/Navigation-->
 
     <!--Home-->
@@ -106,7 +113,6 @@
 
     <!-- Accounts fragment-->
     <string name="btn_text_add">Add user permission</string>
-
     <!-- /Accounts fragment -->
 
     <!-- Accounts activity-->
@@ -139,4 +145,33 @@
     <string name="ticket_valid">Ticket valid</string>
     <string name="ticket_invalid">Invalid ticket</string>
     <!-- /Scanner-->
+
+    <!-- Events Manage -->
+    <string name="btn_text_delete">Delete</string>
+    <string name="btn_text_add_event">Add event</string>
+    <string name="text_view_first_header_events">List of active events</string>
+
+    <string name="list_item_text_helper_price">Price: </string>
+    <string name="list_item_text_helper_date_of_start">Event start: </string>
+    <string name="list_item_text_helper_date_of_end">Event end: </string>
+    <string name="toast_delete_success">The event has been successfully deleted</string>
+    <string name="toast_delete_faild">The event cannot be deleted because tickets have already been bought!</string>
+    <!-- /Events Manage -->
+
+    <!-- Events Manage Activity -->
+    <string name="events_manage_add_image_view">Add event</string>
+    <string name="hint_text_event_name">Event name</string>
+    <string name="hint_text_event_description">Event description</string>
+    <string name="hint_text_event_price">Event price</string>
+    <string name="hint_date_time_event_date_of_start">Event start</string>
+    <string name="hint_date_time_event_date_of_end">Event end</string>
+
+
+    <string name="btn_date_time_of_start_event">Choose start</string>
+    <string name="btn_date_time_of_end_event">Choose end</string>
+    <string name="btn_text_btn_save_event">Save event</string>
+
+    <string name="toast_add_event_success">Add event success!</string>
+    <string name="toast_add_event_failure">Add event failure, provided data is incorrect!</string>
+    <!-- /Events Manage Activity -->
 </resources>

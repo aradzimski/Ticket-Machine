@@ -24,12 +24,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
-// The following class is used to show users who have the admin and bodyguard privileges group.
-// The class also contains a button that allows you to go to another activity in which you can change the user's privileges.
-// AccountsFragment class extends the fragment class.
+/**
+ * The following class is used to show users who have the admin and bodyguard privileges group.
+ * The class also contains a button that allows you to go to another activity in which you can change the user's privileges.
+ * AccountsFragment class extends the fragment class.
+ */
 public class AccountsFragment extends Fragment {
     private static String URL_GETPRIVILEGEDUSERS;
-    private AccountsViewModel accountsViewModel;
     private Button btn_add;
 
     private ListView users_list_view_admin;
@@ -43,8 +44,6 @@ public class AccountsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        accountsViewModel =
-                ViewModelProviders.of(this).get(AccountsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_accounts, container, false);
 
         URL_GETPRIVILEGEDUSERS = getString(R.string.URL_GETPRIVILEGEDUSERS);
@@ -52,7 +51,9 @@ public class AccountsFragment extends Fragment {
         users_list_view_bodyguard = view.findViewById(R.id.users_list_view_bodyguard);
         btn_add = view.findViewById(R.id.btn_add);
 
-        // Create and fill the lists of users with admin and bodyguard permission level
+        /**
+         * Create and fill the lists of users with admin and bodyguard permission level
+         */
         getPrivilegedUsers(new VolleyCallback(){
             @Override
             public void onSuccess(ArrayList<User> adminList, ArrayList<User> bodyguardList) {
@@ -64,7 +65,9 @@ public class AccountsFragment extends Fragment {
             }
         });
 
-        // Below method on button allows you to go to another activity in which you can change the user's privileges.
+        /**
+         * Below method on button allows you to go to another activity in which you can change the user's privileges.
+         */
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +79,9 @@ public class AccountsFragment extends Fragment {
         return view;
     }
 
-    // We call the onResume method because after returning to the fragment class we want to refresh the list of authorized users
+    /**
+     * We call the onResume method because after returning to the fragment class we want to refresh the list of authorized users
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -96,9 +101,12 @@ public class AccountsFragment extends Fragment {
         void onSuccess(ArrayList<User> adminList, ArrayList<User> bodyguardList);
     }
 
-    // This method was created to find users with admin and bodyguard role, we are searching user for show which user have which permission level.
-    // Method communicates with an external api which connects to the database and provides relevant information.
-    // Method use VolleyCallback interface parameter, which allow as to get data in onCreateView if the response was correct.
+    /**
+     * This method was created to find users with admin and bodyguard role, we are searching user for show which user have which permission level.
+     * Method communicates with an external api which connects to the database and provides relevant information.
+     * Method use VolleyCallback interface parameter, which allow as to get data in onCreateView if the response was correct.
+     * @param callback
+     */
     private void getPrivilegedUsers(final VolleyCallback callback) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_GETPRIVILEGEDUSERS,
