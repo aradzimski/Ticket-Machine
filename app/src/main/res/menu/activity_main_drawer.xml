@@ -39,16 +39,16 @@
     </group>
 
 
-    <item android:title="Comunicate">
+    <item android:title="@string/menu_communicate">
         <menu>
             <item
                 android:id="@+id/nav_contact"
                 android:icon="@drawable/ic_menu_contact"
-                android:title="Contact" />
+                android:title="@string/menu_contact" />
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/menu_share" />
         </menu>
     </item>
 </menu>
