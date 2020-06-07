@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ticket_machine.models.Ticket;
+import com.example.ticket_machine.tools.JsonParser;
 import com.example.ticket_machine.tools.SharedPreferenceConfig;
 import com.example.ticket_machine.ui.tickets.TicketActivity;
 import com.example.ticket_machine.ui.tickets.TicketFragment;
@@ -43,11 +44,14 @@ public class TicketsActivity extends AppCompatActivity {
     private boolean mTwoPane;
     private SharedPreferenceConfig preferenceConfig;
     private static String URL_GETUSERTICKETS;
+    private JsonParser jsonParser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket_list);
+
+        jsonParser = new JsonParser();
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
@@ -84,13 +88,7 @@ public class TicketsActivity extends AppCompatActivity {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
 
-                                    Ticket ticket = new Ticket();
-                                    ticket.Id = object.getString("id").trim();
-                                    ticket.EventId = object.getString("event_id").trim();
-                                    ticket.UserId = object.getString("user_id").trim();
-                                    ticket.Key = object.getString("key").trim();
-                                    ticket.CreatedOn = object.getString("createdOn").trim();
-                                    ticket.EventName = object.getString("name").trim();
+                                    Ticket ticket = JsonParser.getTicket(object);
 
                                     ticket_list.add(ticket);
                                 }
