@@ -36,6 +36,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * The following class is used to generate view with table that contains all active events with possibility of buying ticket for chosen event.
+ * EventsFragment class extends the fragment class.
+ */
+
 public class EventsFragment extends Fragment {
 
     private SharedPreferenceConfig preferenceConfig;
@@ -81,7 +86,10 @@ public class EventsFragment extends Fragment {
                                     String description = object.getString("description").trim();
                                     String price = object.getString("price").trim();
 
-                                    /// Printing all events to table
+                                    /**
+                                     * Prepare table row for each event returned from API.
+                                     */
+
                                     TableRow eventRow = new TableRow(getContext());
                                     TableLayout.LayoutParams rowParams = new TableLayout.LayoutParams(
                                             TableLayout.LayoutParams.WRAP_CONTENT,
@@ -159,6 +167,12 @@ public class EventsFragment extends Fragment {
 
         return view;
     }
+
+    /**
+     * This method is called on button click. Every row in the events table has a button with unique ID number, which determines the event chosen by the user.
+     * Then we get ID of the logged in user and generate unique key for a new ticket.
+     * With event ID, user ID and ticket KEY the request is sent to API to create a new ticket entry in database.
+     */
 
     public void buyTicket(View v)
     {
