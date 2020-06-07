@@ -6,6 +6,10 @@ import com.example.ticket_machine.models.Ticket;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * JsonParser class allows parsing JSONObjects retrieved from API to specified objects of this application.
+ */
+
 public final class JsonParser {
 
     public static Ticket getTicket(JSONObject object) throws JSONException {
